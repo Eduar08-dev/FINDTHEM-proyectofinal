@@ -1,42 +1,26 @@
-import Header from "./componentes/Header";
-import DonacionButon from "./componentes/DonacionBoton";
-import PrimeraSeccion from "./componentes/PrimeraSeccion";
-import CarruselPublicaciones from "./componentes/CarruselPublicaciones";
-import SocialButtons from "./componentes/SocialButtons";
-import UltimasNoticias from "./componentes/UltimasNoticias";
-import Footer from "./componentes/Footer";
+import Header from "../componentes/Header";
+import Footer from "../componentes/Footer";
+import DonationButton from "@/componentes/DonacionBoton";
+import PrimeraSeccion from "@/componentes/PrimeraSeccion";
+import SocialButtons from "@/componentes/SocialButtons";
+import CarruselPublicaciones from "@/componentes/CarruselPublicaciones";
+import UltimasNoticias from "@/componentes/UltimasNoticias";
 
 export default function Home() {
   return (
-    <main>
-      <header className="">
-        <Header></Header>
-
-      </header>
-
-      <DonacionButon></DonacionButon>
-      <SocialButtons></SocialButtons>
-
-      <section>
-        <div>
-          <PrimeraSeccion></PrimeraSeccion>
-        </div>
-      </section>
-
-       <div className="flex justify-center bg-slate-800">
-        <CarruselPublicaciones>
-        </CarruselPublicaciones>
-       </div>
-       <div className="flex justify-center">
-        <UltimasNoticias>
-        </UltimasNoticias>
-       </div>
-      
-      <Footer>
-
-      </Footer>
-
-    </main>
+ <main>
+ <Header/>
+ <DonationButton/>
+ <DonationButton/>
+ <PrimeraSeccion/>
+ <SocialButtons/>
+ <div className="flex flex-col bg-slate-800">
+ <CarruselPublicaciones/>
+ <h2 className="flex justify-center items-center p-3 text-xl"> En esta seccion, podrás encontrar información detallada y reciente <br/> sobre los acontecimientos de personas desaparecidas</h2>
+ </div>
+ <UltimasNoticias/>
+ <Footer/>
+ </main>
   );
 
 }
