@@ -1,10 +1,10 @@
-import Header from "../componentes/Header";
-import Footer from "../componentes/Footer";
-import DonationButton from "@/componentes/DonacionBoton";
-import PrimeraSeccion from "@/componentes/PrimeraSeccion";
-import SocialButtons from "@/componentes/SocialButtons";
-import CarruselPublicaciones from "@/componentes/CarruselPublicaciones";
-import UltimasNoticias from "@/componentes/UltimasNoticias";
+import Header from "../componentes/home/Header";
+import Footer from "../componentes/home/Footer";
+import DonationButton from "@/componentes/home/DonacionBoton";
+import PrimeraSeccion from "@/componentes/home/PrimeraSeccion";
+import SocialButtons from "@/componentes/home/SocialButtons";
+import CarruselPublicaciones from "@/componentes/home/CarruselPublicaciones";
+import UltimasNoticias from "@/componentes/home/UltimasNoticias";
 
 export default function Home() {
   return (
@@ -22,5 +22,4 @@ export default function Home() {
  <Footer/>
  </main>
   );
-
 }
