@@ -1,4 +1,5 @@
-import { useState } from 'react';
+
+import React, { useState } from 'react';
 
 const PublicacionForm = ({ onSubirPublicacion }) => {
     const [url, setUrl] = useState('');
@@ -25,7 +26,7 @@ const PublicacionForm = ({ onSubirPublicacion }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+        <form onSubmit={handleSubmit} className="container flex flex-col justify-center w-4">
             <input
                 type="text"
                 placeholder="URL de la imagen"

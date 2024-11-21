@@ -1,10 +1,10 @@
 "use client";
 import { PiMagnifyingGlassDuotone } from "react-icons/pi";
 import { Home, Users, Heart, Send, Newspaper, Phone } from 'lucide-react'
+import Link from 'next/link';
 
 const Header = () => {
     return (
-      
       <header className="flex bg-slate-800 font-sans py-4">
         <div className="flex justify-start p-2 m-1 ml-5">
         <div className="w-6 h-6"></div>
@@ -23,9 +23,9 @@ const Header = () => {
             <a href="/voluntario" className="text-white hover:text-emerald-400 transition-colors">
               Vuelvete voluntario
             </a>
-            <a href="/publica" className="text-white hover:text-emerald-400 transition-colors">
+            <Link href="/publica" className="text-white hover:text-emerald-400 transition-colors">
               Publica aquí
-            </a>
+            </Link>
             <a href="/noticias" className="text-white hover:text-emerald-400 transition-colors">
               Noticias
             </a>
