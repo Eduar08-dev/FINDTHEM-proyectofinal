@@ -1,4 +1,4 @@
-import subirPublicacion from "@/utils/publicacionesEnCarrusel"
+import subirPublicacion from "@/lib/publicacionesEnCarrusel"
 
 
 export default function publicaciones () {

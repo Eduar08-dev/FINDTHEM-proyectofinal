@@ -1,4 +1,4 @@
-import Header from "./componentes/Header";
+
 import DonacionButon from "./componentes/DonacionBoton";
 import PrimeraSeccion from "./componentes/PrimeraSeccion";
 import CarruselPublicaciones from "./componentes/CarruselPublicaciones";
