@@ -1,15 +1,17 @@
-'use client'
-import Footer from "@/components/home/Footer"
-import Header from "@/components/home/Header"
-import SubirPublicaciones from "@/components/publicaciones/SubirPublicaciones"
-import Link from "next/link"
+import Navbar from "@/componentes/Navbar/page";
+import Nosotros from "@/componentes/Nosotros/page";
+import FormPublicar from "@/componentes/Form-Publicar/page";
+import Footer from "@/componentes/Footer";
 
-export default function publicaciones () {
-    return (
-        <>
-        <Header/>
-        <SubirPublicaciones/>
-        <Footer/>
-        </>
-    )
+export default function Page() {
+  return (
+    <>
+      <div className="min-h-screen bg-white">
+        <Nosotros />
+        <Navbar />
+        <FormPublicar />
+        <Footer />
+      </div>
+    </>
+  );
 }
