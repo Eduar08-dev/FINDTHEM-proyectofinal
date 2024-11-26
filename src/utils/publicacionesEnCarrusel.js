@@ -1,4 +1,3 @@
-// /c:/Users/eduar/Desktop/proyecto-final/my-app/src/utils/publicacionesEnCarrusel.js
 
 let publicaciones = [];
 
@@ -6,7 +5,7 @@ function agregarPublicacion(imagen, nombre, descripcion) {
     const nuevaPublicacion = { imagen, nombre, descripcion };
 
     if (publicaciones.length >= 3) {
-        publicaciones.shift(); // Elimina la primera publicación
+        publicaciones.shift();
     }
 
     publicaciones.push(nuevaPublicacion);

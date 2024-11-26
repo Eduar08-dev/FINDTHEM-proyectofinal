@@ -55,7 +55,7 @@ const CarruselPublicaciones = () => {
           className="absolute w-full h-full transition-transform duration-500 ease-out"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
-          <div className="absolute w-full h-full flex">
+          <div className="absolute w-full h-full flex" style={{ transform: `translateX(-${currentIndex * 100}%)`, transition: 'transform 0.5s ease-out' }}>
             {images.map((image, index) => (
               <div
                 key={index}
