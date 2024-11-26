@@ -1,25 +1,30 @@
-
-import DonacionButon from "./componentes/DonacionBoton";
-import PrimeraSeccion from "./componentes/PrimeraSeccion";
-import CarruselPublicaciones from "./componentes/CarruselPublicaciones";
-import SocialButtons from "./componentes/SocialButtons";
-import UltimasNoticias from "./componentes/UltimasNoticias";
-import Footer from "./componentes/Footer";
+import "./globals.css";
+import Link from "next/link";
+import PrimeraSeccion from "../components/PrimeraSeccion";
+import CarruselPublicaciones from "../components/CarruselPublicaciones";
+import Footer from "../components/Footer";
+import Nosotros from "@/components/Nosotros/page";
+import Navbar from "@/components/Navbar/page";
+import Modulos from "@/components/Modulos/page";
+import Image from "next/image";
 
 export default function Home() {
   return (
- <main>
- <Header/>
- <DonationButton/>
- <DonationButton/>
- <PrimeraSeccion/>
- <SocialButtons/>
- <div className="flex flex-col bg-slate-800">
- <CarruselPublicaciones/>
- <h2 className="flex justify-center items-center p-3 text-xl"> En esta seccion, podrás encontrar información detallada y reciente <br/> sobre los acontecimientos de personas desaparecidas</h2>
- </div>
- <UltimasNoticias/>
- <Footer/>
- </main>
+    <main className="min-h-screen bg-white">
+      <Nosotros />
+      <Navbar />
+      <CarruselPublicaciones />
+      <Modulos />
+      <PrimeraSeccion />
+      <Footer />
+
+      {/* <Header />
+      <DonacionButon />
+      <SocialButtons />
+      <UltimasNoticias />
+      <PrimeraSeccion />
+      
+      <Footer /> */}
+    </main>
   );
 }
