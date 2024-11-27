@@ -17,7 +17,7 @@ export default function FormPublicar() {
               <input
                 type="text"
                 className="grow"
-                placeholder="Daisy Perez Lopez"
+                placeholder="Ingresa aquí el nombre"
               />
             </label>
             <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
@@ -40,12 +40,32 @@ export default function FormPublicar() {
                 placeholder="+57 3001234567"
               />
             </label>
-            <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
+            <label className="input input-bordered flex flex-col gap-2 bg-Azul-Fuerte w-full h-1/4">
               Condición:
               <textarea
-                placeholder="Tiene alzheimer, es sordomudo, tiene autismo..."
-                className="textarea textarea-bordered textarea-xs w-full max-w-xs"
-              ></textarea>
+               id="mensaje"
+               name="mensaje"
+               rows="5"
+               placeholder="Escribe tu mensaje aquí (máximo 500 caracteres)"
+               maxLength={500}
+               className="
+               w-full 
+               px-3 
+               py-2 
+               border 
+               border-gray-300 
+               rounded-md 
+               focus:outline-none 
+               focus:ring-2 
+               focus:ring-blue-500 
+               focus:border-transparent
+               resize-y
+               min-h-[100px]
+               max-h-[300px]
+               bg-white
+              "/>
+              <p className="text-sm text-gray-500 mt-1">
+              </p>
             </label>
           </div>
           <span className="flex flex-col items-start justify-start pt-3 text-xl text-Azul-Fuerte">
@@ -76,26 +96,57 @@ export default function FormPublicar() {
               Última vez vista:
               <input type="text" className="grow" placeholder="9:24 PM" />
             </label>
-            <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
-              Vestimenta:
+            <div className="flex justify-evenly items-center w-full">
+            <label className="input input-bordered flex flex-col gap-2 bg-Azul-Fuerte w-2/4 p-3 h-1/4">
+              Vestimenta: 
               <textarea
                 placeholder="Camisa, Pantalón, Accesorios..."
-                className="textarea textarea-bordered textarea-xs w-full max-w-xs"
+                className="               
+               w-full 
+               px-3 
+               py-2
+               border 
+               border-gray-300 
+               rounded-md 
+               focus:outline-none 
+               focus:ring-2 
+               focus:ring-blue-500 
+               focus:border-transparent
+               resize-y
+               min-h-[100px]
+               max-h-[300px]
+               bg-white"
+               
               ></textarea>
             </label>
-            <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
+            <label className="input input-bordered flex flex-col gap-2 bg-Azul-Fuerte w-2/4 h-1/4 p-3 ml-3">
               Descripción de los hechos:
               <textarea
                 placeholder="Salió de su casa para donde una amiga y no llego..."
-                className="textarea textarea-bordered textarea-xs w-full max-w-xs"
-              ></textarea>
+                className="
+                w-full 
+                px-3 
+                py-2
+                border 
+                border-gray-300 
+                rounded-md 
+                focus:outline-none 
+                focus:ring-2 
+                focus:ring-blue-500 
+                focus:border-transparent
+                resize-y
+                min-h-[100px]
+                max-h-[300px]
+                bg-white
+               "/>
             </label>
+            </div>
           </div>
           <span className="flex flex-col items-start justify-start pt-3 text-xl text-Azul-Fuerte">
             Fotos de la persona:
           </span>
           <div className="flex flex-row flex-wrap content-center items-center justify-start gap-3 p-3 text-white">
-            <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
+            <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte w-2/6">
               Max 4
               <input
                 type="file"

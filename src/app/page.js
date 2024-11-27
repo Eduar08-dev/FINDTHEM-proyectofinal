@@ -1,12 +1,9 @@
-import "./globals.css";
-import Link from "next/link";
-import PrimeraSeccion from "../components/PrimeraSeccion";
-import CarruselPublicaciones from "../components/CarruselPublicaciones";
-import Footer from "../components/Footer";
-import Nosotros from "@/components/Nosotros/page";
-import Navbar from "@/components/Navbar/page";
-import Modulos from "@/components/Modulos/page";
-import Image from "next/image";
+import Nosotros from '../componentes/Nosotros/page.js';
+import Navbar from '../componentes/Navbar/page.js';
+import Footer from '../componentes/Footer.js';
+import CarruselPublicaciones from '../componentes/CarruselPublicaciones.js';
+import Modulos from '../componentes/Modulos/page.js';
+import PrimeraSeccion from '../componentes/PrimeraSeccion.js'
 
 export default function Home() {
   return (
@@ -20,7 +17,7 @@ export default function Home() {
 
       {/* <Header />
       <DonacionButon />
-      <SocialButtons />
+      <SocialButtons /> s
       <UltimasNoticias />
       <PrimeraSeccion />
       

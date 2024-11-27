@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import { FaUser, FaUserPlus } from "react-icons/fa6";
+
 
 const Navbar = () => {
   return (
@@ -27,8 +29,8 @@ const Navbar = () => {
         className="absolute left-0 top-0 h-full w-full bg-Azul-Fuerte"
         style={{ clipPath: "polygon(20% 0, 100% 0, 100% 100%, 23% 100%)" }}
       ></div>
-      <div className="relative flex w-full items-center justify-center text-white">
-        <div className="flex items-center justify-center space-x-4">
+      <div className="relative flex w-full items-center justify-center">
+        <div className="flex items-center justify-center space-x-4 text-white">
           <ul className="menu menu-horizontal px-1">
             <li>
               <Link href="/">Inicio</Link>
@@ -61,6 +63,14 @@ const Navbar = () => {
           </ul>
         </div>
       </div>
+        <div className="flex items-center justify-end space-x-4 z-10">
+          <button className="btn bg-white text-black">
+          <FaUser/>
+            Iniciar Sesión</button>
+          <button className="btn bg-white text-black">
+          <FaUserPlus />
+            Registrarse</button>
+        </div>
     </nav>
   );
 };
