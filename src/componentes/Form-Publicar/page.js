@@ -28,9 +28,23 @@ export default function FormPublicar() {
               Estatura
               <input type="text" className="grow" placeholder="1.60 m" />
             </label>
+            <select className="select select-bordered flex w-full max-w-xs gap-2 bg-Azul-Fuerte">
+              <option disabled selected>
+                Sexo
+              </option>
+              <option>Masculino</option>
+              <option>Femenino</option>
+            </select>
             <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
               Color de piel:
               <input type="text" className="grow" placeholder="Morena" />
+            </label>
+            <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
+              Condición:
+              <textarea
+                placeholder="Tiene alzheimer, es sordomudo, tiene autismo..."
+                className="textarea textarea-bordered textarea-xs z-10 w-full max-w-xs"
+              ></textarea>
             </label>
             <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
               Contacto:
@@ -39,13 +53,6 @@ export default function FormPublicar() {
                 className="grow"
                 placeholder="+57 3001234567"
               />
-            </label>
-            <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
-              Condición:
-              <textarea
-                placeholder="Tiene alzheimer, es sordomudo, tiene autismo..."
-                className="textarea textarea-bordered textarea-xs w-full max-w-xs"
-              ></textarea>
             </label>
           </div>
           <span className="flex flex-col items-start justify-start pt-3 text-xl text-Azul-Fuerte">
@@ -57,7 +64,7 @@ export default function FormPublicar() {
               <input
                 type="text"
                 className="grow"
-                placeholder="Riomar, Barranquilla"
+                placeholder="Riomar, Barranquilla/Atlá..."
               />
             </label>
             <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
@@ -77,17 +84,25 @@ export default function FormPublicar() {
               <input type="text" className="grow" placeholder="9:24 PM" />
             </label>
             <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
+              Parentesco con la persona:
+              <input
+                type="text"
+                className="grow"
+                placeholder="Padre, Madre, Hijo etc. "
+              />
+            </label>
+            <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
               Vestimenta:
               <textarea
-                placeholder="Camisa, Pantalón, Accesorios..."
-                className="textarea textarea-bordered textarea-xs w-full max-w-xs"
+                placeholder="Camisa (color), Pantalón, Accesorios..."
+                className="textarea textarea-bordered textarea-xs z-10 w-full max-w-xs"
               ></textarea>
             </label>
             <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
               Descripción de los hechos:
               <textarea
                 placeholder="Salió de su casa para donde una amiga y no llego..."
-                className="textarea textarea-bordered textarea-xs w-full max-w-xs"
+                className="textarea textarea-bordered textarea-xs z-10 w-full max-w-xs"
               ></textarea>
             </label>
           </div>
@@ -104,6 +119,11 @@ export default function FormPublicar() {
                 multiple
               />
             </label>
+          </div>
+          <div className="flex flex-row flex-wrap content-end items-end justify-end gap-3 p-3">
+            <button className="btn flex items-center gap-2 bg-Azul-Mediano text-white hover:bg-Azul-Suave">
+              Publicar
+            </button>
           </div>
         </div>
       </div>
