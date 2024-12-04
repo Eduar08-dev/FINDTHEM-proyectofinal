@@ -8,12 +8,9 @@ import PrimeraSeccion from '../componentes/PrimeraSeccion.js'
 export default function Home() {
   return (
     <main className="min-h-screen bg-white">
-      <Nosotros />
-      <Navbar />
       <CarruselPublicaciones />
       <Modulos />
       <PrimeraSeccion />
-      <Footer />
 
       {/* <Header />
       <DonacionButon />

@@ -18,6 +18,22 @@ module.exports = {
       fontFamily: { sans: ["Roboto", "sans-serif"] }, // Añade la nueva fuente aquí },
       boxShadow: { "custom-shadow": "0px 3px 18px -3px rgba(0,0,0,0.75)" }, // Define tu sombra personalizada aquí,
     },
+    screens: {
+      'sm': '640px',
+      // => @media (min-width: 640px) { ... }
+
+      'md': '768px',
+      // => @media (min-width: 768px) { ... }
+
+      'lg': '1024px',
+      // => @media (min-width: 1024px) { ... }
+
+      'xl': '1280px',
+      // => @media (min-width: 1280px) { ... }
+
+      '2xl': '1536px',
+      // => @media (min-width: 1536px) { ... }
+    }
   },
   plugins: [require("daisyui")],
 };

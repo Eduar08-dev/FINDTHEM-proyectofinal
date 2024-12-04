@@ -46,12 +46,13 @@ export default function FormPublicar() {
                id="mensaje"
                name="mensaje"
                rows="5"
-               placeholder="Escribe tu mensaje aquí (máximo 500 caracteres)"
+               placeholder="Escribe aquí la condición de la persona"
                maxLength={500}
                className="
                w-full 
                px-3 
-               py-2 
+               py-2
+               text-black 
                border 
                border-gray-300 
                rounded-md 
@@ -106,6 +107,7 @@ export default function FormPublicar() {
                px-3 
                py-2
                border 
+               text-black
                border-gray-300 
                rounded-md 
                focus:outline-none 
@@ -129,6 +131,7 @@ export default function FormPublicar() {
                 py-2
                 border 
                 border-gray-300 
+                text-black
                 rounded-md 
                 focus:outline-none 
                 focus:ring-2 
@@ -156,6 +159,9 @@ export default function FormPublicar() {
               />
             </label>
           </div>
+            <div className="flex justify-center align-center w-full mt-10">
+              <button className="btn bg-Azul-Fuerte text-white btn-primary w-2/6 hover:text-black hover:bg-white">Publicar</button>
+            </div>
         </div>
       </div>
     </div>
