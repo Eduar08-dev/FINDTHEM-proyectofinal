@@ -1,5 +1,6 @@
 import React from "react";
 
+
 export default function FormPublicar() {
   return (
     <div className="bg-white p-3 font-sans">
