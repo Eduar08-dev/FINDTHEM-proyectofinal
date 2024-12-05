@@ -18,10 +18,10 @@ const Modulos = () => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          observer.unobserve(modulosRef.current); //todo Deja de observar una vez que es visible para llamadas innecesarias
+          observer.unobserve(modulosRef.current); // Deja de observar una vez que es visible para evitar llamadas innecesarias
         }
       },
-      { threshold: 0.3 }, //todo Porcentaje para dar comienzo a la animación
+      { threshold: 0.3 }, // Porcentaje para dar comienzo a la animación
     );
 
     if (modulosRef.current) {
@@ -59,8 +59,8 @@ const Modulos = () => {
   }, [isVisible]);
 
   return (
-    <div className="flex flex-row flex-wrap content-between items-center justify-around gap-0 bg-white p-5">
-      <div className="grid gap-9 md:grid-cols-3">
+    <div className="flex flex-col flex-wrap items-center justify-around gap-5 bg-white p-5 md:flex-row md:content-between md:gap-0">
+      <div className="grid gap-9 sm:grid-cols-1 md:grid-cols-2 md:content-center md:justify-center lg:grid-cols-3">
         <Card
           icon={<FaUserPlus className="h-16 w-16" />}
           title="Solicitud de búsqueda"
@@ -82,7 +82,7 @@ const Modulos = () => {
       </div>
       <div
         ref={modulosRef}
-        className="flex flex-row flex-wrap content-between items-center justify-around gap-0 bg-white p-5"
+        className="flex flex-col flex-wrap items-center justify-around gap-5 bg-white pt-5 md:flex-row md:content-between md:gap-0"
       >
         <div className="mt-5 grid gap-9 md:grid-cols-2">
           <CardsDatos
