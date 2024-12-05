@@ -3,166 +3,181 @@ import React from "react";
 
 export default function FormPublicar() {
   return (
-    <div className="bg-white p-3 font-sans">
-      <div className="flex flex-wrap items-center justify-center rounded-lg border-2 border-dotted border-Azul-Fuerte p-3">
-        <span className="text-3xl font-bold text-Azul-Fuerte">
-          Llenar fomulario
+    <div className="bg-white p-4 font-sans">
+      <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dotted border-Azul-Fuerte p-4">
+        <span className="mb-4 text-3xl font-bold text-Azul-Fuerte sm:text-2xl md:text-3xl">
+          Llenar formulario
         </span>
-        <div>
-          <span className="flex flex-col items-start justify-start pt-3 text-xl text-Azul-Fuerte">
+        <div className="w-full">
+          <span className="block pt-3 text-xl text-Azul-Fuerte sm:text-lg md:text-xl">
             Datos de la persona:
           </span>
-          <div className="flex flex-row flex-wrap content-center items-center justify-start gap-3 p-3 text-white">
-            <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
-              Nombre
+          <div className="grid grid-cols-1 gap-4 p-3 text-white sm:grid-cols-2 md:grid-cols-3">
+            <div className="flex w-full flex-col items-start">
+              <span className="text-left text-Azul-Fuerte">Nombre:</span>
               <input
                 type="text"
-                className="grow"
+                className="input input-bordered h-12 w-full bg-Azul-Fuerte"
                 placeholder="Ingresa aquí el nombre"
               />
-            </label>
-            <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
-              Edad
-              <input type="text" className="grow" placeholder="33 Años" />
-            </label>
-            <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
-              Estatura
-              <input type="text" className="grow" placeholder="1.60 m" />
-            </label>
-            <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
-              Color de piel:
-              <input type="text" className="grow" placeholder="Morena" />
-            </label>
-            <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
-              Contacto:
+            </div>
+            <div className="flex w-full flex-col items-start">
+              <span className="text-left text-Azul-Fuerte">Edad:</span>
               <input
                 type="text"
-                className="grow"
+                className="input input-bordered h-12 w-full bg-Azul-Fuerte"
+                placeholder="33 Años"
+              />
+            </div>
+            <div className="flex w-full flex-col items-start">
+              <span className="text-left text-Azul-Fuerte">Estatura:</span>
+              <input
+                type="text"
+                className="input input-bordered h-12 w-full bg-Azul-Fuerte"
+                placeholder="1.60 m"
+              />
+            </div>
+            <div className="flex w-full flex-col items-start">
+              <span className="text-left text-Azul-Fuerte">Sexo:</span>
+              <select
+                className="select select-bordered h-12 w-full bg-Azul-Fuerte"
+                defaultValue=""
+              >
+                <option value="" disabled>
+                  Seleccione
+                </option>
+                <option value="Masculino">Masculino</option>
+                <option value="Femenino">Femenino</option>
+              </select>
+            </div>
+            <div className="flex w-full flex-col items-start">
+              <span className="text-left text-Azul-Fuerte">Color de piel:</span>
+              <input
+                type="text"
+                className="input input-bordered h-12 w-full bg-Azul-Fuerte"
+                placeholder="Morena"
+              />
+            </div>
+            <div className="flex w-full flex-col items-start">
+              <span className="text-left text-Azul-Fuerte">Contacto:</span>
+              <input
+                type="text"
+                className="input input-bordered h-12 w-full bg-Azul-Fuerte"
                 placeholder="+57 3001234567"
               />
-            </label>
-            <label className="input input-bordered flex flex-col gap-2 bg-Azul-Fuerte w-full h-1/4">
-              Condición:
-              <textarea
-               id="mensaje"
-               name="mensaje"
-               rows="5"
-               placeholder="Escribe aquí la condición de la persona"
-               maxLength={500}
-               className="
-               w-full 
-               px-3 
-               py-2
-               text-black 
-               border 
-               border-gray-300 
-               rounded-md 
-               focus:outline-none 
-               focus:ring-2 
-               focus:ring-blue-500 
-               focus:border-transparent
-               resize-y
-               min-h-[100px]
-               max-h-[300px]
-               bg-white
-              "/>
-              <p className="text-sm text-gray-500 mt-1">
-              </p>
-            </label>
-          </div>
-          <span className="flex flex-col items-start justify-start pt-3 text-xl text-Azul-Fuerte">
-            Información:
-          </span>
-          <div className="flex flex-row flex-wrap content-center items-center justify-start gap-3 p-3 text-white">
-            <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
-              Barrio
+            </div>
+            <div className="flex w-full flex-col items-start">
+              <span className="text-left text-Azul-Fuerte">
+                Grupo sanguíneo:
+              </span>
               <input
                 type="text"
-                className="grow"
-                placeholder="Riomar, Barranquilla"
+                className="input input-bordered h-12 w-full bg-Azul-Fuerte"
+                placeholder="O +"
               />
-            </label>
-            <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
-              Última ubicación:
-              <input
-                type="text"
-                className="grow"
-                placeholder="Cra. 57 #90-138"
-              />
-            </label>
-            <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
-              Día del suceso:
-              <input type="date" className="grow" />
-            </label>
-            <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte">
-              Última vez vista:
-              <input type="text" className="grow" placeholder="9:24 PM" />
-            </label>
-            <div className="flex justify-evenly items-center w-full">
-            <label className="input input-bordered flex flex-col gap-2 bg-Azul-Fuerte w-2/4 p-3 h-1/4">
-              Vestimenta: 
+            </div>
+            <div className="flex w-full flex-col items-start">
+              <span className="text-left text-Azul-Fuerte">
+                Características físicas:
+              </span>
               <textarea
-                placeholder="Camisa, Pantalón, Accesorios..."
-                className="               
-               w-full 
-               px-3 
-               py-2
-               border 
-               text-black
-               border-gray-300 
-               rounded-md 
-               focus:outline-none 
-               focus:ring-2 
-               focus:ring-blue-500 
-               focus:border-transparent
-               resize-y
-               min-h-[100px]
-               max-h-[300px]
-               bg-white"
-               
+                placeholder="Cicatrices, tatuajes, etc."
+                className="textarea textarea-bordered h-12 w-full bg-Azul-Fuerte"
               ></textarea>
-            </label>
-            <label className="input input-bordered flex flex-col gap-2 bg-Azul-Fuerte w-2/4 h-1/4 p-3 ml-3">
-              Descripción de los hechos:
+            </div>
+            <div className="flex w-full flex-col items-start">
+              <span className="text-left text-Azul-Fuerte">Condición:</span>
               <textarea
-                placeholder="Salió de su casa para donde una amiga y no llego..."
-                className="
-                w-full 
-                px-3 
-                py-2
-                border 
-                border-gray-300 
-                text-black
-                rounded-md 
-                focus:outline-none 
-                focus:ring-2 
-                focus:ring-blue-500 
-                focus:border-transparent
-                resize-y
-                min-h-[100px]
-                max-h-[300px]
-                bg-white
-               "/>
-            </label>
+                placeholder="Tiene alzheimer, es sordomudo, tiene autismo..."
+                className="textarea textarea-bordered h-12 w-full bg-Azul-Fuerte"
+              ></textarea>
             </div>
           </div>
-          <span className="flex flex-col items-start justify-start pt-3 text-xl text-Azul-Fuerte">
+          <span className="block pt-3 text-xl text-Azul-Fuerte sm:text-lg md:text-xl">
+            Información:
+          </span>
+          <div className="grid grid-cols-1 gap-4 p-3 text-white sm:grid-cols-2 md:grid-cols-3">
+            <div className="flex w-full flex-col items-start">
+              <span className="text-left text-Azul-Fuerte">Barrio:</span>
+              <input
+                type="text"
+                className="input input-bordered h-12 w-full bg-Azul-Fuerte"
+                placeholder="Riomar, Barranquilla/Atlá..."
+              />
+            </div>
+            <div className="flex w-full flex-col items-start">
+              <span className="text-left text-Azul-Fuerte">
+                Última ubicación:
+              </span>
+              <input
+                type="text"
+                className="input input-bordered h-12 w-full bg-Azul-Fuerte"
+                placeholder="Cra. 57 #90-138"
+              />
+            </div>
+            <div className="flex w-full flex-col items-start">
+              <span className="text-left text-Azul-Fuerte">
+                Día del suceso:
+              </span>
+              <input
+                type="date"
+                className="input input-bordered h-12 w-full bg-Azul-Fuerte"
+              />
+            </div>
+            <div className="flex w-full flex-col items-start">
+              <span className="text-left text-Azul-Fuerte">
+                Última vez vista:
+              </span>
+              <input
+                type="text"
+                className="input input-bordered h-12 w-full bg-Azul-Fuerte"
+                placeholder="9:24 PM"
+              />
+            </div>
+            <div className="flex w-full flex-col items-start">
+              <span className="text-left text-Azul-Fuerte">Parentesco:</span>
+              <input
+                type="text"
+                className="input input-bordered h-12 w-full bg-Azul-Fuerte"
+                placeholder="Padre, Madre, Hijo etc."
+              />
+            </div>
+            <div className="flex w-full flex-col items-start">
+              <span className="text-left text-Azul-Fuerte">Vestimenta:</span>
+              <textarea
+                placeholder="Camisa (color), Pantalón, Accesorios..."
+                className="textarea textarea-bordered h-12 w-full bg-Azul-Fuerte"
+              ></textarea>
+            </div>
+            <div className="flex w-full flex-col items-start">
+              <span className="text-left text-Azul-Fuerte">
+                Descripción de los hechos:
+              </span>
+              <textarea
+                placeholder="Salió de su casa para donde una amiga y no llego..."
+                className="textarea textarea-bordered h-12 w-full bg-Azul-Fuerte"
+              ></textarea>
+            </div>
+          </div>
+          <span className="block pt-3 text-xl text-Azul-Fuerte sm:text-lg md:text-xl">
             Fotos de la persona:
           </span>
-          <div className="flex flex-row flex-wrap content-center items-center justify-start gap-3 p-3 text-white">
-            <label className="input input-bordered flex items-center gap-2 bg-Azul-Fuerte w-2/6">
-              Max 4
+          <div className="grid grid-cols-1 gap-4 p-3 text-white sm:grid-cols-2 md:grid-cols-3">
+            <div className="flex w-full flex-col items-start">
+              <span className="text-left text-Azul-Fuerte">Max 4 fotos:</span>
               <input
                 type="file"
-                className="file-input file-input-bordered w-full max-w-xs"
+                className="file-input file-input-bordered h-12 w-full bg-Azul-Fuerte"
                 accept="image/*"
                 multiple
               />
-            </label>
-          </div>
-            <div className="flex justify-center align-center w-full mt-10">
-              <button className="btn bg-Azul-Fuerte text-white btn-primary w-2/6 hover:text-black hover:bg-white">Publicar</button>
             </div>
+          </div>
+          <div className="flex flex-row flex-wrap items-end justify-end gap-3 p-3">
+            <button className="btn flex items-center gap-2 bg-Azul-Mediano text-white hover:bg-Azul-Suave">
+              Publicar
+            </button>
+          </div>
         </div>
       </div>
     </div>

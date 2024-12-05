@@ -7,10 +7,19 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        sm: "640px",
+        sd: "820px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1280px",
+        "2xl": "1536px",
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
         "Azul-Fuerte": "#010937",
+        "Azul-Base": "#010c4b",
         "Azul-Mediano": "#1c31a5",
         "Azul-Suave": "#215adc",
         White: "fffff",
@@ -35,5 +44,6 @@ module.exports = {
       // => @media (min-width: 1536px) { ... }
     }
   },
+  variants: { extend: { display: ["responsive"] } },
   plugins: [require("daisyui")],
 };
