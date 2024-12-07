@@ -78,7 +78,7 @@ const Navbar = () => {
               <Link href="/nosotros">Nosotros</Link>
             </li>
             <li>
-              <a>Noticias</a>
+              <Link href="/noticias">Noticias</Link>
             </li>
             <li>
               <details>
@@ -120,7 +120,7 @@ const Navbar = () => {
             <Link href="/nosotros">Nosotros</Link>
           </li>
           <li>
-            <a>Noticias</a>
+            <Link href="/noticias">Noticias</Link>
           </li>
           <li>
             <details className="group">

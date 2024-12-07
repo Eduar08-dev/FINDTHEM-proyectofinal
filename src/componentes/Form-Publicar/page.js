@@ -87,7 +87,7 @@ export default function FormPublicar() {
             <div className="flex w-full flex-col items-start">
               <span className="text-left text-Azul-Fuerte">Condición:</span>
               <textarea
-                placeholder="Tiene alzheimer, es sordomudo, tiene autismo..."
+                placeholder="Tipo de alergia, sufre alzheimer, es sordomudo, tiene autismo..."
                 className="textarea textarea-bordered h-12 w-full bg-Azul-Fuerte"
               ></textarea>
             </div>
