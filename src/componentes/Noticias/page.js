@@ -1,13 +1,14 @@
+// /src/app/noticias/page.js
 "use client";
-
 import CardNoticia from "./CardNoticia/page";
 
 const noticias = [
   {
+    id: "1",
     images: [
       "/toby.jpg",
       "/tom.jpg",
-      "/spiderman.jpg",
+      "/Andrew.jpg",
       "/actriz-gabriela-andrada_98.jpg",
     ],
     nombre: "Daisy Perez Lopez",
@@ -19,79 +20,26 @@ const noticias = [
     condicion:
       "Tipo de alergia, sufre de Alzheimer, es sordomuda, tiene autismo.",
   },
+  {
+    id: "2",
+    images: ["/Andrew.jpg", "/LogoFindThem.png"],
+    nombre: "Juan Perez Martinez",
+    barrio: "Centro, Barranquilla/Atlántico",
+    edad: "45 Años",
+    ubicacion: "Cra. 50 #40-50",
+    diaSuceso: "02/02/2024",
+    horaVista: "10:30 AM",
+    condicion: "Sufre de hipertensión y diabetes.",
+  },
 ];
 
 export default function NoticiasPage() {
   return (
     <div>
-      {noticias.map((noticia, index) => (
+      {noticias.map((noticia) => (
         <CardNoticia
-          key={index}
-          images={noticia.images}
-          nombre={noticia.nombre}
-          barrio={noticia.barrio}
-          edad={noticia.edad}
-          ubicacion={noticia.ubicacion}
-          diaSuceso={noticia.diaSuceso}
-          horaVista={noticia.horaVista}
-          condicion={noticia.condicion}
-        />
-      ))}
-      {noticias.map((noticia, index) => (
-        <CardNoticia
-          key={index}
-          images={noticia.images}
-          nombre={noticia.nombre}
-          barrio={noticia.barrio}
-          edad={noticia.edad}
-          ubicacion={noticia.ubicacion}
-          diaSuceso={noticia.diaSuceso}
-          horaVista={noticia.horaVista}
-          condicion={noticia.condicion}
-        />
-      ))}
-      {noticias.map((noticia, index) => (
-        <CardNoticia
-          key={index}
-          images={noticia.images}
-          nombre={noticia.nombre}
-          barrio={noticia.barrio}
-          edad={noticia.edad}
-          ubicacion={noticia.ubicacion}
-          diaSuceso={noticia.diaSuceso}
-          horaVista={noticia.horaVista}
-          condicion={noticia.condicion}
-        />
-      ))}
-      {noticias.map((noticia, index) => (
-        <CardNoticia
-          key={index}
-          images={noticia.images}
-          nombre={noticia.nombre}
-          barrio={noticia.barrio}
-          edad={noticia.edad}
-          ubicacion={noticia.ubicacion}
-          diaSuceso={noticia.diaSuceso}
-          horaVista={noticia.horaVista}
-          condicion={noticia.condicion}
-        />
-      ))}
-      {noticias.map((noticia, index) => (
-        <CardNoticia
-          key={index}
-          images={noticia.images}
-          nombre={noticia.nombre}
-          barrio={noticia.barrio}
-          edad={noticia.edad}
-          ubicacion={noticia.ubicacion}
-          diaSuceso={noticia.diaSuceso}
-          horaVista={noticia.horaVista}
-          condicion={noticia.condicion}
-        />
-      ))}
-      {noticias.map((noticia, index) => (
-        <CardNoticia
-          key={index}
+          key={noticia.id}
+          id={noticia.id}
           images={noticia.images}
           nombre={noticia.nombre}
           barrio={noticia.barrio}

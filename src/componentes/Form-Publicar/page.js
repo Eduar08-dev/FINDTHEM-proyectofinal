@@ -57,14 +57,7 @@ export default function FormPublicar() {
                 placeholder="Morena"
               />
             </div>
-            <div className="flex w-full flex-col items-start">
-              <span className="text-left text-Azul-Fuerte">Contacto:</span>
-              <input
-                type="text"
-                className="input input-bordered h-12 w-full bg-Azul-Fuerte"
-                placeholder="+57 3001234567"
-              />
-            </div>
+
             <div className="flex w-full flex-col items-start">
               <span className="text-left text-Azul-Fuerte">
                 Grupo sanguíneo:
@@ -139,6 +132,14 @@ export default function FormPublicar() {
                 type="text"
                 className="input input-bordered h-12 w-full bg-Azul-Fuerte"
                 placeholder="Padre, Madre, Hijo etc."
+              />
+            </div>
+            <div className="flex w-full flex-col items-start">
+              <span className="text-left text-Azul-Fuerte">Contacto:</span>
+              <input
+                type="text"
+                className="input input-bordered h-12 w-full bg-Azul-Fuerte"
+                placeholder="+57 3001234567"
               />
             </div>
             <div className="flex w-full flex-col items-start">

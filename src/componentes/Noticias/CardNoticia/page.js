@@ -1,8 +1,11 @@
+// /src/components/Noticias/CardNoticia/page.js
 "use client";
 
+import { usePathname, useSearchParams } from "next/navigation";
 import GaleriaImagen from "@/componentes/GaleriaImagen/page";
 
 export default function CardNoticia({
+  id,
   images,
   nombre,
   barrio,
@@ -12,6 +15,15 @@ export default function CardNoticia({
   horaVista,
   condicion,
 }) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const handleMoreInfo = () => {
+    // Construct the URL using the current pathname and adding the dynamic id
+    const newUrl = `${pathname}/${id}`;
+    window.location.href = newUrl;
+  };
+
   return (
     <>
       <div className="flex flex-col rounded-lg bg-white p-4 md:flex-row">
@@ -55,7 +67,10 @@ export default function CardNoticia({
             <button className="btn border-2 border-Azul-Fuerte bg-Azul-Suave text-white">
               Compartir
             </button>
-            <button className="btn border-2 border-Azul-Fuerte bg-Azul-Suave text-white">
+            <button
+              className="btn border-2 border-Azul-Fuerte bg-Azul-Suave text-white"
+              onClick={handleMoreInfo}
+            >
               Más Información
             </button>
           </div>

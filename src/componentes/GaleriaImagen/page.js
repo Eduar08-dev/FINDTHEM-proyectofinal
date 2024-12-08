@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 
-export default function GaleriaImagen({ images }) {
+export default function GaleriaImagen({ images, className = "" }) {
   const [isOpen, setIsOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState(0);
 
@@ -25,12 +25,14 @@ export default function GaleriaImagen({ images }) {
   };
 
   return (
-    <div className="relative mx-auto grid grid-cols-2 items-center justify-center gap-1 md:w-[320px] md:gap-2">
+    <div
+      className={`relative mx-auto grid grid-cols-2 items-center justify-center gap-1 md:w-[320px] md:gap-2 ${className}`}
+    >
       {images.map((src, index) => (
         <div
           key={index}
           className={`flex justify-center ${index % 2 === 0 ? "md:mr-1" : "md:ml-1"} ${
-            index >= 2 ? "md:-mt-2" : ""
+            index >= 2 ? "md:mt-8" : "" // Aquí ajustamos el margen
           }`}
           style={{ width: "150px", height: "150px" }}
         >

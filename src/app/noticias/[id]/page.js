@@ -2,7 +2,7 @@
 
 import Navbar from "@/componentes/Navbar/page";
 import Nosotros from "@/componentes/Nosotros/page";
-import Noticia from "@/componentes/Noticias/page";
+import NoticiaDetalle from "@/componentes/NoticiaDetalles/page";
 import Footer from "@/componentes/Footer";
 
 export default function Page() {
@@ -11,7 +11,7 @@ export default function Page() {
       <div className="min-h-screen bg-white">
         <Nosotros />
         <Navbar />
-        <Noticia />
+        <NoticiaDetalle />
         <Footer />
       </div>
     </>
