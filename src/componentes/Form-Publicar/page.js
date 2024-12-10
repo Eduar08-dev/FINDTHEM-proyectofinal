@@ -239,11 +239,11 @@ export default function FormPublicar() {
         })
       );
 
-      const docRef = await addDoc(collection(db, "personas_desaparecidas"), {
-        ...formData,
-        imageUrls,
-        fechaPublicacion: new Date(),
-      });
+      // const docRef = await addDoc(collection(db, "personas_desaparecidas"), {
+      //   ...formData,
+      //   imageUrls,
+      //   fechaPublicacion: new Date(),
+      // });
 
       setSubmitMessage("Formulario enviado con éxito!");
       setFormData({
