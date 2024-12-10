@@ -5,7 +5,6 @@ import CarruselPublicaciones from "./componentes/CarruselPublicaciones";
 import SocialButtons from "./componentes/SocialButtons";
 import UltimasNoticias from "./componentes/UltimasNoticias";
 import Footer from "./componentes/Footer";
-import CajaPublicacion from "./componentes/CajaPublicacion";
 
 export default function Home() {
   return (
@@ -32,13 +31,11 @@ export default function Home() {
         <UltimasNoticias>
         </UltimasNoticias>
        </div>
-
-       <div>
-          <CajaPublicacion/>
-       </div>
       
-      <Footer/>
+      <Footer>
+
+      </Footer>
+
     </main>
   );
-
 }
