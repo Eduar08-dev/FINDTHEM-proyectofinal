@@ -87,7 +87,7 @@ export default function FormInversa() {
               <span className="text-left text-Azul-Fuerte">Vestimenta:</span>
               <textarea
                 placeholder="Camisa (color), Pantalón, Accesorios..."
-                className="textarea textarea-bordered h-12 w-full bg-Azul-Fuerte"
+                className="textarea textarea-bordered w-full bg-Azul-Fuerte"
               ></textarea>
             </div>
             <div className="flex w-full flex-col items-start">
@@ -96,7 +96,7 @@ export default function FormInversa() {
               </span>
               <textarea
                 placeholder="Se encuentra desorientada, no recuerda su información personal, etc."
-                className="textarea textarea-bordered h-12 w-full bg-Azul-Fuerte"
+                className="textarea textarea-bordered w-full bg-Azul-Fuerte"
               ></textarea>
             </div>
 

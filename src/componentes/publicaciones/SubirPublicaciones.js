@@ -1,4 +1,5 @@
-import { useState } from 'react';
+
+import React, { useState } from 'react';
 
 const PublicacionForm = ({ onSubirPublicacion }) => {
     const [url, setUrl] = useState('');
@@ -25,18 +26,11 @@ const PublicacionForm = ({ onSubirPublicacion }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+        <div className='flex justify-center align-center flex-col'>
+            <form onSubmit={handleSubmit} className="container flex flex-col justify-center space-yw-4 size-2/4">
             <input
                 type="text"
-                placeholder="URL de la imagen"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                className="border rounded p-2"
-                required
-            />
-            <input
-                type="text"
-                placeholder="Título"
+                placeholder="Nombres y apellidos"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 className="border rounded p-2"
@@ -49,10 +43,16 @@ const PublicacionForm = ({ onSubirPublicacion }) => {
                 className="border rounded p-2"
                 required
             />
+          </form>
+          <div className="flex justify-center">
             <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
                 Subir Publicación
             </button>
-        </form>
+            <button className="bg-blue-500 text-white px-4 py-2 rounded">
+                Sube la foto aquí
+            </button>
+          </div>
+        </div>
     );
 };
 

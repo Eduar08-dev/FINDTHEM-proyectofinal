@@ -1,13 +1,11 @@
-import Nosotros from "@/componentes/Nosotros/page";
-import Post from "@/componentes/Pruebas/page";
+import React from 'react';
+import CardNosotros from '../../componentes/CardNosotros/page';
+import AboutCard from '../../componentes/CardNosotros/page';
 
-export default function Page() {
-  return (
-    <>
-      <div className="min-h-screen bg-white">
-        <Nosotros />
-        <Post />
-      </div>
-    </>
-  );
-}
+export default function Nosotros() {
+    return (
+        <>
+        <CardNosotros/>
+        </>
+    );
+};

@@ -1,41 +1,24 @@
-
-import DonacionButon from "./componentes/DonacionBoton";
-import PrimeraSeccion from "./componentes/PrimeraSeccion";
-import CarruselPublicaciones from "./componentes/CarruselPublicaciones";
-import SocialButtons from "./componentes/SocialButtons";
-import UltimasNoticias from "./componentes/UltimasNoticias";
-import Footer from "./componentes/Footer";
+import Nosotros from '../componentes/Nosotros/page.js';
+import Navbar from '../componentes/Navbar/page.js';
+import Footer from '../componentes/Footer.js';
+import CarruselPublicaciones from '../componentes/CarruselPublicaciones.js';
+import Modulos from '../componentes/Modulos/page.js';
+import PrimeraSeccion from '../componentes/PrimeraSeccion.js'
 
 export default function Home() {
   return (
-    <main>
-      <header className="">
-        <Header></Header>
+    <main className="min-h-screen bg-white">
+      <CarruselPublicaciones />
+      <Modulos />
+      <PrimeraSeccion />
 
-      </header>
-
-      <DonacionButon></DonacionButon>
-      <SocialButtons></SocialButtons>
-
-      <section>
-        <div>
-          <PrimeraSeccion></PrimeraSeccion>
-        </div>
-      </section>
-
-       <div className="flex justify-center bg-slate-800">
-        <CarruselPublicaciones>
-        </CarruselPublicaciones>
-       </div>
-       <div className="flex justify-center">
-        <UltimasNoticias>
-        </UltimasNoticias>
-       </div>
+      {/* <Header />
+      <DonacionButon />
+      <SocialButtons /> s
+      <UltimasNoticias />
+      <PrimeraSeccion />
       
-      <Footer>
-
-      </Footer>
-
+      <Footer /> */}
     </main>
   );
 }

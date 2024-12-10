@@ -8,8 +8,8 @@ import { useEffect, useRef, useState } from "react";
 import { TweenMax, Circ } from "gsap";
 
 const Modulos = () => {
-  const [cifra1, setCifra1] = useState(999999);
-  const [cifra2, setCifra2] = useState(999999);
+  const [cifra1, setCifra1] = useState(9999);
+  const [cifra2, setCifra2] = useState(9999);
   const modulosRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -60,7 +60,7 @@ const Modulos = () => {
 
   return (
     <div className="flex flex-col flex-wrap items-center justify-around gap-5 bg-white p-5 md:flex-row md:content-between md:gap-0">
-      <div className="grid gap-9 sm:grid-cols-1 md:grid-cols-2 md:content-center md:justify-center lg:grid-cols-3">
+      <div className="grid gap-9 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:justify-center">
         <Card
           icon={<FaUserPlus className="h-16 w-16" />}
           title="Solicitud de búsqueda"
@@ -78,6 +78,7 @@ const Modulos = () => {
           title="Personas perdidas"
           description="Mira el listado completo de las personas desaparecidas aquí."
           link="/inicio"
+          className="lg:col-span-3 md:bg-Azul-Fuerte lg:justify-self-center"
         />
       </div>
       <div
