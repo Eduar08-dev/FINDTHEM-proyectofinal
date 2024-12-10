@@ -129,7 +129,7 @@ const NavbarPrueba = () => {
           <li>
             <details className="group">
               <summary className="cursor-pointer">Búsqueda</summary>
-              <ul className="bg-Azul-Base absolute mt-2 hidden rounded-b-lg p-2 group-open:block">
+              <ul className="absolute mt-2 hidden rounded-b-lg bg-Azul-Base p-2 group-open:block">
                 <li>
                   <Link href="/publica">Solicitar búsqueda</Link>
                 </li>
