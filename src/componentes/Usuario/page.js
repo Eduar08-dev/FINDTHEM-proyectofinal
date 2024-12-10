@@ -1,10 +1,15 @@
-// /components/usuario/InfoUsuario.js
+"use client";
+
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { updateUsuario } from "../../lib/firebaseActions";
+import { auth, db } from "../../../firebaseconfig";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 const InfoUsuario = () => {
-  const [userInfo, setUserInfo] = useState({
+  const router = useRouter();
+  const { userId } = router.query;
+
+  const [userData, setUserData] = useState({
     userName: "",
     nombre: "",
     apellido: "",
@@ -13,32 +18,36 @@ const InfoUsuario = () => {
     sexo: "",
     foto: "",
   });
-  const router = useRouter();
 
   useEffect(() => {
-    if (!router.isReady) return;
-    // Puedes cargar información previa del usuario aquí, si es necesario
-  }, [router.isReady]);
+    const fetchUserData = async () => {
+      if (userId) {
+        const userDoc = await getDoc(doc(db, "usuarios", userId));
+        if (userDoc.exists()) {
+          setUserData(userDoc.data());
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [userId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUserInfo({ ...userInfo, [name]: value });
+    setUserData({ ...userData, [name]: value });
   };
 
   const handleFileChange = (e) => {
     const { name, files } = e.target;
-    setUserInfo({ ...userInfo, [name]: files[0] });
+    setUserData({ ...userData, [name]: files[0] });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const userId = "ID_DEL_USUARIO"; // Debes obtener este ID del contexto de autenticación o router
+  const handleSave = async () => {
     try {
-      await updateUsuario(userId, userInfo);
-      // Redirigir a otra página después de guardar
-      router.push("/perfil"); // Ajusta la ruta según sea necesario
+      await updateDoc(doc(db, "usuarios", userId), userData);
+      alert("Información actualizada correctamente");
     } catch (error) {
-      console.error("Error al guardar la información: ", error);
+      console.error("Error al actualizar la información del usuario:", error);
     }
   };
 
@@ -62,7 +71,7 @@ const InfoUsuario = () => {
                 className="input input-bordered h-12 w-full bg-Azul-Fuerte"
                 placeholder="daisyperez"
                 name="userName"
-                value={userInfo.userName}
+                value={userData.userName}
                 onChange={handleChange}
               />
             </div>
@@ -73,7 +82,7 @@ const InfoUsuario = () => {
                 className="input input-bordered h-12 w-full bg-Azul-Fuerte"
                 placeholder="Daisy"
                 name="nombre"
-                value={userInfo.nombre}
+                value={userData.nombre}
                 onChange={handleChange}
               />
             </div>
@@ -84,7 +93,7 @@ const InfoUsuario = () => {
                 className="input input-bordered h-12 w-full bg-Azul-Fuerte"
                 placeholder="Perez"
                 name="apellido"
-                value={userInfo.apellido}
+                value={userData.apellido}
                 onChange={handleChange}
               />
             </div>
@@ -95,20 +104,20 @@ const InfoUsuario = () => {
                 className="input input-bordered h-12 w-full bg-Azul-Fuerte"
                 placeholder="daisy@gmail.com"
                 name="email"
-                value={userInfo.email}
+                value={userData.email}
                 onChange={handleChange}
               />
             </div>
             <div className="flex w-full flex-col items-start">
               <span className="text-left text-Azul-Fuerte">
-                Numero de telefono:
+                Número de teléfono:
               </span>
               <input
                 type="text"
                 className="input input-bordered h-12 w-full bg-Azul-Fuerte"
                 placeholder="+57 3001234567"
                 name="numTel"
-                value={userInfo.numTel}
+                value={userData.numTel}
                 onChange={handleChange}
               />
             </div>
@@ -117,7 +126,7 @@ const InfoUsuario = () => {
               <select
                 className="select select-bordered h-12 w-full bg-Azul-Fuerte"
                 name="sexo"
-                value={userInfo.sexo}
+                value={userData.sexo}
                 onChange={handleChange}
               >
                 <option value="" disabled>
@@ -143,7 +152,7 @@ const InfoUsuario = () => {
           <div className="flex flex-row flex-wrap items-end justify-end gap-3 p-3">
             <button
               className="btn flex items-center gap-2 bg-Azul-Mediano text-white hover:bg-Azul-Suave"
-              onClick={handleSubmit}
+              onClick={handleSave}
             >
               Guardar
             </button>
