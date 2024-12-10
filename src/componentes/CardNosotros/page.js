@@ -137,7 +137,7 @@ const CardNosotros = () => {
     <div className="">
       <main className="container mx-auto px-4 py-12">
         <AnimatedSection className="mb-16 bg-Azul-Fuerte p-5 w-full rounded-lg shadow-lg">
-          <h2 className="text-4xl font-semibold text-white p-5">¿Quiénes Somos?</h2>
+          <h1 className="text-4xl font-semibold text-white p-5">¿Quiénes Somos?</h1>
           <div className="container flex flex-col md:flex-row items-center gap-8">
             <div className="md:w-1/2">
               <p className="text-white text-xl mb-4">
