@@ -382,8 +382,11 @@ export default function FormPublicar() {
             <div className="flex w-full flex-col items-start">
               <span className="text-left text-Azul-Fuerte">Condición:</span>
               <textarea
+                name="condicion"
+                value={formData.condicion}
+                onChange={handleInputChange}
                 placeholder="Tiene alzheimer, es sordomudo, tiene autismo..."
-                className="textarea textarea-bordered h-12 w-full bg-Azul-Fuerte"
+                className="textarea textarea-bordered w-full bg-Azul-Fuerte"
               ></textarea>
             </div>
           </div>
@@ -449,14 +452,6 @@ export default function FormPublicar() {
                 onChange={handleInputChange}
                 className="input input-bordered h-12 w-full bg-Azul-Fuerte"
                 placeholder="Padre, Madre, Hijo etc."
-              />
-            </div>
-            <div className="flex w-full flex-col items-start">
-              <span className="text-left text-Azul-Fuerte">Contacto:</span>
-              <input
-                type="text"
-                className="input input-bordered h-12 w-full bg-Azul-Fuerte"
-                placeholder="+57 3001234567"
               />
             </div>
             <div className="flex w-full flex-col items-start">
