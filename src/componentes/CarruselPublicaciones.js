@@ -282,7 +282,7 @@ const CarruselPublicaciones = () => {
           aria-label="Anterior"
         >
           <svg
-            className="h-6 w-6"
+            className="w-6 h-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -303,7 +303,7 @@ const CarruselPublicaciones = () => {
           aria-label="Siguiente"
         >
           <svg
-            className="h-6 w-6"
+            className="w-6 h-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

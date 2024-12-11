@@ -1,6 +1,5 @@
 'use client';
 
-import React from "react";
 import { useState } from "react";
 import {db, storage} from "../../lib/firebase";
 import {collection, addDoc} from "firebase/firestore";
@@ -213,7 +212,7 @@ export default function FormInversa() {
               <textarea
               name="vestimenta"
               value={form.vestimenta}
-              onChange={handleInputChange}   
+              onChange={handleInputChange}     
                 placeholder="Camisa (color), Pantalón, Accesorios..."
                 className="textarea textarea-bordered w-full bg-Azul-Fuerte"
               ></textarea>
@@ -236,7 +235,7 @@ export default function FormInversa() {
               <textarea
               name="condicion"
               value={form.condicion}
-              onChange={handleInputChange}  
+              onChange={handleInputChange}   
                 placeholder="Tiene alzheimer, es sordomudo, tiene autismo..."
                 className="textarea textarea-bordered h-12 w-full bg-Azul-Fuerte"
               ></textarea>
@@ -262,17 +261,11 @@ export default function FormInversa() {
             type="button"
             onClick={handleEnviar}
             className={`btn flex items-center text-lg w-1/2 gap-2 ${enviar ? "bg-white text-black" : "bg-Azul-Mediano text-white"} hover:bg-Azul-Suave`}>
-
               {enviar ? "Enviando..." : "Enviar"}
             </button>
-            </div>
-            {mensajeEnviado && (
-            <div className={`mt-4 p-2 text-center ${mensajeEnviado.includes("exitosa") ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
-              {mensajeEnviado}
-            </div>
-          )}
           </div>
         </div>
+        </div>
       </form>
-      );
-    }
+  );
+  }

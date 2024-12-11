@@ -5,27 +5,80 @@ import Link from "next/link";
 import { FaUserLock, FaUser, FaKey, FaEnvelope, FaBars } from "react-icons/fa6";
 import { FaTimes } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
+import { auth, db } from "../../../firebaseconfig"; // Asegúrate de que la ruta es correcta
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 const Navbar = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState("");
-  const [isLoginView, setIsLoginView] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoginView, setIsLoginView] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
 
   const handleToggle = () => {
     setShowPassword((prevState) => !prevState);
   };
-
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
-
   const toggleView = () => {
     setIsLoginView((prevState) => !prevState);
   };
-
   const toggleMenu = () => {
     setIsMenuOpen((prevState) => !prevState);
+  };
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      alert("Las contraseñas no coinciden.");
+      return;
+    }
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      const user = userCredential.user;
+      console.log("Usuario registrado:", user);
+
+      // Guarda el nombre de usuario en Firestore
+      await setDoc(doc(db, "usuarios", user.uid), {
+        username,
+        email,
+      });
+
+      console.log("Usuario guardado en Firestore");
+
+      // Redirige al usuario a completar su perfil
+      Router.push(`/complete-profile?userId=${user.uid}`);
+    } catch (error) {
+      console.error("Error al registrar el usuario:", error);
+    }
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        loginEmail,
+        loginPassword,
+      );
+      console.log("Usuario autenticado:", userCredential.user);
+    } catch (error) {
+      console.error("Error al autenticar el usuario:", error);
+    }
   };
 
   const handleClickOutside = (event) => {
@@ -33,14 +86,12 @@ const Navbar = () => {
       setIsMenuOpen(false);
     }
   };
-
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [isMenuOpen]);
-
   return (
     <nav className="navbar relative flex items-center justify-between">
       <div
@@ -78,7 +129,7 @@ const Navbar = () => {
               <Link href="/nosotros">Nosotros</Link>
             </li>
             <li>
-              <a>Noticias</a>
+              <Link href="/noticias">Noticias</Link>
             </li>
             <li>
               <details>
@@ -95,14 +146,12 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-
         <div className="z-10 flex items-center justify-between space-x-2 md:flex">
           <button
             className="btn bg-Azul-Suave text-white hover:bg-Azul-Mediano"
             onClick={() => document.getElementById("my_modal_2").showModal()}
           >
-            <FaUserLock className="h-5 w-5" />
-            Usuario
+            <FaUserLock className="h-5 w-5" /> Usuario
           </button>
           <button className="p-2 text-white md:hidden" onClick={toggleMenu}>
             {isMenuOpen ? <FaTimes /> : <FaBars />}
@@ -120,7 +169,7 @@ const Navbar = () => {
             <Link href="/nosotros">Nosotros</Link>
           </li>
           <li>
-            <a>Noticias</a>
+            <Link href="/noticias">Noticias</Link>
           </li>
           <li>
             <details className="group">
@@ -137,7 +186,6 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
-
       <dialog id="my_modal_2" className="modal backdrop-blur-lg">
         <div className="modal-box flex flex-col items-center justify-center overflow-hidden bg-Azul-Fuerte">
           <AnimatePresence mode="wait">
@@ -153,23 +201,32 @@ const Navbar = () => {
                 <h3 className="mb-4 text-center text-lg font-bold text-white">
                   Iniciar sesión
                 </h3>
-                <div className="flex w-full flex-col items-center">
+                <form
+                  onSubmit={handleLogin}
+                  className="flex w-full flex-col items-center"
+                >
                   <label className="input input-bordered my-2 flex w-72 items-center gap-3 bg-white text-Azul-Fuerte">
-                    <FaUser />
-                    <input type="text" className="grow" placeholder="Usuario" />
+                    <FaEnvelope />
+                    <input
+                      type="email"
+                      className="grow"
+                      placeholder="Correo electrónico"
+                      value={loginEmail}
+                      onChange={(e) => setLoginEmail(e.target.value)}
+                    />
                   </label>
                   <label
-                    htmlFor="password"
+                    htmlFor="loginPassword"
                     className="input input-bordered my-2 flex w-72 items-center gap-3 bg-white text-Azul-Fuerte"
                   >
                     <FaKey />
                     <input
                       type={showPassword ? "text" : "password"}
-                      className="password grow"
-                      id="password"
-                      value={password}
-                      onChange={handlePasswordChange}
+                      className="grow"
+                      id="loginPassword"
                       placeholder="**********"
+                      value={loginPassword}
+                      onChange={(e) => setLoginPassword(e.target.value)}
                     />
                     <input
                       className="flex"
@@ -184,17 +241,21 @@ const Navbar = () => {
                       ¿Has olvidado la contraseña?
                     </span>
                   </Link>
-                  <button className="btn my-2 w-72 bg-Azul-Suave text-white hover:bg-Azul-Mediano">
+                  <button
+                    type="submit"
+                    className="btn my-2 w-72 bg-Azul-Suave text-white hover:bg-Azul-Mediano"
+                  >
                     Ingresar
                   </button>
                   <div className="divider divider-neutral">o</div>
                   <button
+                    type="button"
                     className="btn my-2 w-72 bg-Azul-Suave text-white hover:bg-Azul-Mediano"
                     onClick={toggleView}
                   >
                     Crear cuenta
                   </button>
-                </div>
+                </form>
               </motion.div>
             ) : (
               <motion.div
@@ -208,10 +269,19 @@ const Navbar = () => {
                 <h3 className="mb-4 text-center text-lg font-bold text-white">
                   Crear cuenta
                 </h3>
-                <div className="flex w-full flex-col items-center">
+                <form
+                  onSubmit={handleRegister}
+                  className="flex w-full flex-col items-center"
+                >
                   <label className="input input-bordered my-2 flex w-72 items-center gap-3 bg-white text-Azul-Fuerte">
                     <FaUser />
-                    <input type="text" className="grow" placeholder="Usuario" />
+                    <input
+                      type="text"
+                      className="grow"
+                      placeholder="Usuario"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                    />
                   </label>
                   <label className="input input-bordered my-2 flex w-72 items-center gap-3 bg-white text-Azul-Fuerte">
                     <FaEnvelope />
@@ -219,6 +289,8 @@ const Navbar = () => {
                       type="email"
                       className="grow"
                       placeholder="Correo electrónico"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </label>
                   <label
@@ -228,11 +300,11 @@ const Navbar = () => {
                     <FaKey />
                     <input
                       type={showPassword ? "text" : "password"}
-                      className="password grow"
+                      className="grow"
                       id="password"
-                      value={password}
-                      onChange={handlePasswordChange}
                       placeholder="*******"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                     <input
                       className="flex"
@@ -249,9 +321,11 @@ const Navbar = () => {
                     <FaKey />
                     <input
                       type={showPassword ? "text" : "password"}
-                      className="password grow"
+                      className="grow"
                       id="confirmPassword"
                       placeholder="Confirmar contraseña"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                     <input
                       className="flex"
@@ -261,17 +335,21 @@ const Navbar = () => {
                       onChange={handleToggle}
                     />
                   </label>
-                  <button className="btn my-2 w-72 bg-Azul-Suave text-white hover:bg-Azul-Mediano">
+                  <button
+                    type="submit"
+                    className="btn my-2 w-72 bg-Azul-Suave text-white hover:bg-Azul-Mediano"
+                  >
                     Registrar
                   </button>
                   <div className="divider divider-neutral">o</div>
                   <button
+                    type="button"
                     className="btn my-2 w-72 bg-Azul-Suave text-white hover:bg-Azul-Mediano"
                     onClick={toggleView}
                   >
                     Iniciar sesión
                   </button>
-                </div>
+                </form>
               </motion.div>
             )}
           </AnimatePresence>
@@ -283,7 +361,6 @@ const Navbar = () => {
     </nav>
   );
 };
-
 export default Navbar;
 
 
