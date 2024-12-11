@@ -185,10 +185,13 @@
 // }
 
 
-import React, { useState } from "react";
-import { db, storage } from "../../lib/firebase";
-import { collection, addDoc } from "firebase/firestore";
+'use client';
+
+import React, { useState, useEffect } from "react";
+import { db, storage, auth, isDevelopment } from "../../lib/firebase";
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { signInAnonymously } from "firebase/auth";
 
 export default function FormPublicar() {
   const [formData, setFormData] = useState({
@@ -242,6 +245,7 @@ export default function FormPublicar() {
     return true;
   };
 
+
   const [imagenes, setImagenes] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
@@ -253,23 +257,54 @@ export default function FormPublicar() {
 
   const handleFileChange = (e) => {
     if (e.target.files.length > 4) {
-      alert("Solo puedes subir un máximo de 4 imágenes.");
+      alert("¡!Solo puedes subir un máximo de 4 imágenes!");
       return;
     }
     setImagenes(Array.from(e.target.files));
   };
   
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setIsSubmitting(true);
+  //   setSubmitMessage("");
+    
+  //   if (!validateForm()) {
+  //     setSubmitMessage("Por favor, complete todos los campos requeridos y suba al menos una imagen.");
+  //     setIsSubmitting(false);
+  //     return;
+  //   }
+  
+
+  //   try {
+  //     const imageUrls = await Promise.all(
+  //       imagenes.map(async (imagen) => {
+  //         const imageRef = ref(storage, `imagenes/${imagen.name}`);
+  //         await uploadBytes(imageRef, imagen);
+  //         return getDownloadURL(imageRef);
+  //       })
+  //     );
+
+  //     const docRef = await addDoc(collection(db, "personas_desaparecidas"), {
+  //       ...formData,
+  //       imageUrls,
+  //       fechaPublicacion: new Date(),
+  //     });
+
+  //     setSubmitMessage("Formulario enviado con éxito!");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitMessage("");
     
+    console.log("Form Data:", formData);
+    console.log("Images:", imagenes);
+
     if (!validateForm()) {
-      setSubmitMessage("Por favor, complete todos los campos requeridos y suba al menos una imagen.");
+      setSubmitMessage("¡Por favor, complete todos los campos requeridos y suba al menos una imagen.!");
       setIsSubmitting(false);
       return;
     }
-  
 
     try {
       const imageUrls = await Promise.all(
@@ -280,11 +315,15 @@ export default function FormPublicar() {
         })
       );
 
-      // const docRef = await addDoc(collection(db, "personas_desaparecidas"), {
-      //   ...formData,
-      //   imageUrls,
-      //   fechaPublicacion: new Date(),
-      // });
+      console.log("Image URLs:", imageUrls); // Verifica que las URLs se generen correctamente
+
+      const docRef = await addDoc(collection(db, "personas_desaparecidas"), {
+        ...formData,
+        imageUrls,
+        fechaPublicacion: new Date(),
+      });
+
+      console.log("Document written with ID: ", docRef.id); // Verifica que el documento se haya creado
 
       setSubmitMessage("Formulario enviado con éxito!");
       setFormData({
@@ -533,11 +572,11 @@ export default function FormPublicar() {
               />
             </div>
           </div>
-          <div className="flex flex-row flex-wrap items-end justify-end gap-3 p-3">
-            <button 
-              type="submit"
-              disabled={isSubmitting}
-              className="btn flex items-center gap-2 bg-Azul-Mediano text-white hover:bg-Azul-Suave"
+          <div className="flex flex-row flex-wrap justify-center gap-3 p-3">
+          <button 
+           type="submit"
+           disabled={isSubmitting}
+           className={`btn flex items-center text-lg w-1/2 gap-2 ${isSubmitting ? "bg-white text-black" : "bg-Azul-Mediano text-white"} hover:bg-Azul-Suave`}
             >
               {isSubmitting ? "Enviando..." : "Publicar"}
             </button>
