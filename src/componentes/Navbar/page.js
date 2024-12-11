@@ -2,10 +2,9 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FaUserLock, FaUser, FaKey, FaEnvelope, FaBars } from "react-icons/fa6";
-import { FaTimes } from "react-icons/fa";
+import { FaUserLock, FaUser, FaKey, FaEnvelope, FaBars, FaTimes } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-import { auth, db } from "../../../firebaseconfig"; // Asegúrate de que la ruta es correcta
+import { auth, db } from "../../lib/firebase"; // Asegúrate de que la ruta es correcta
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,

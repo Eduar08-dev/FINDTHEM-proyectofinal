@@ -28,7 +28,6 @@ const InfoUsuario = () => {
         }
       }
     };
-
     fetchUserData();
   }, [userId]);
 

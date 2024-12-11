@@ -194,7 +194,13 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { signInAnonymously } from "firebase/auth";
 
 export default function FormPublicar() {
+
+  const generarId = () => {
+    return Math.random().toString(36).substr(2, 9);
+  }
+
   const [formData, setFormData] = useState({
+    id: generarId(),
     nombre: "",
     edad: "",
     estatura: "",
@@ -249,10 +255,13 @@ export default function FormPublicar() {
   const [imagenes, setImagenes] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
+  
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    formData.id = generarId();
   };
 
   const handleFileChange = (e) => {
