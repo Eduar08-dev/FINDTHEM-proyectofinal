@@ -1,15 +1,9 @@
-import Nosotros from '../componentes/Nosotros/page.js';
-import Navbar from '../componentes/Navbar/page.js';
-import Footer from '../componentes/Footer.js';
-import CarruselPublicaciones from '../componentes/CarruselPublicaciones.js';
-import Modulos from '../componentes/Modulos/page.js';
-import PrimeraSeccion from '../componentes/PrimeraSeccion.js'
+import React from 'react';
 import { Search, Heart, Users } from 'lucide-react';
 
-export default function Home() {
+const TitutuloCarrusel = () => {
   return (
-    <main className="min-h-screen bg-white">
-      <div className="bg-gradient-to-r from-blue-200 to-Azul-Suave py-8 my-1 px-4 rounded-lg shadow-md">
+    <div className="bg-gradient-to-r from-blue-100 to-blue-200 py-8 px-4 rounded-lg shadow-md">
       <div className="max-w-4xl mx-auto text-center">
         <h1 className="text-4xl md:text-5xl font-extrabold text-gray-800 mb-4 flex items-center justify-center">
           <Search className="mr-4 text-blue-600" size={48} />
@@ -26,20 +20,8 @@ export default function Home() {
           </span>
         </div>
       </div>
-          <CarruselPublicaciones />
     </div>
-
-
-          <Modulos />
-          <PrimeraSeccion />
-
-          {/* <Header />
-          <DonacionButon />
-          <SocialButtons />
-          <UltimasNoticias />
-          <PrimeraSeccion />
-
-          <Footer /> */}
-    </main>
   );
-}
+};
+
+export default TitutuloCarrusel;

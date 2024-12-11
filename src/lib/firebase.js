@@ -24,7 +24,6 @@ const db = getFirestore(app); // Inicializa Firestore
 const storage = getStorage(app); // Inicializa Storage
 const auth = getAuth(app);
 
-const isDevelopment = process.env.NODE_ENV === 'development';
 
 // Exporta db y storage para usarlos en otros archivos
-export { db, storage, app, auth, isDevelopment };
+export { db, storage, app, auth,};
