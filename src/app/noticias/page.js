@@ -9,10 +9,7 @@ export default function Page() {
   return (
     <>
       <div className="min-h-screen bg-white">
-        <Nosotros />
-        <Navbar />
-        <Noticia />
-        <Footer />
+       <Noticia />
       </div>
     </>
   );
