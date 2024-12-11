@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FaUserLock, FaUser, FaKey, FaEnvelope, FaBars } from "react-icons/fa6";
 import { FaTimes } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
+
 const Navbar = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");

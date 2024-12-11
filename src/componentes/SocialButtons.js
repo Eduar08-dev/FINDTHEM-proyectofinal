@@ -3,7 +3,7 @@ import { FaFacebookF, FaTwitter, FaInstagram } from 'react-icons/fa';
 const SocialButtons = () => {
   return (
     <div className="fixed top-1/2 right-6 transform -translate-y-1/2 translate-x-1/2">
-      <div className="flex flex-col items-center space-y-4 bg-yellow-500 p-2 rounded-l-md shadow-lg origin-right hidden md:flex">
+      <div className="flex flex-col items-center space-y-4 bg-yellow-500 p-2 rounded-l-md shadow-lg origin-right md:flex">
         {/* Botón de Facebook */}
         <a
           href="https://www.facebook.com"

@@ -43,11 +43,7 @@ const CarruselPublicaciones = () => {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 py-12">
-      <h2 className="text-3xl font-bold text-center text-white mb-8">
-        Últimas Publicaciones
-      </h2>
-      
+    <div className="mx-auto w-full">
       {/* Contenedor del carrusel */}
       <div className="relative h-[400px] md:h-[500px] overflow-hidden rounded-lg">
         {/* Imágenes */}
