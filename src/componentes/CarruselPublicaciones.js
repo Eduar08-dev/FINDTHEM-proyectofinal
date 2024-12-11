@@ -135,9 +135,10 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { collection, query, orderBy, limit, onSnapshot } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+
 
 const CarruselPublicaciones = () => {
   const [publicaciones, setPublicaciones] = useState([]);
@@ -181,8 +182,53 @@ const CarruselPublicaciones = () => {
   if (publicaciones.length === 0) {
     return <div className="flex justify-center text-6xl py-6 px-10">Cargando carrusel informativo...</div>;
   }
+  4
+  const useIntersectionObserver = (options = {}) => {
+    const ref = useRef(null);
+    const [isIntersecting, setIsIntersecting] = useState(false);
+  
+    useEffect(() => {
+      const observer = new IntersectionObserver(([entry]) => {
+        setIsIntersecting(entry.isIntersecting);
+      }, options);
+  
+      if (ref.current) {
+        observer.observe(ref.current);
+      }
+  
+      return () => {
+        if (ref.current) {
+          observer.unobserve(ref.current);
+        }
+      };
+    }, [options]);
+  
+    return [ref, isIntersecting];
+  };
+  
+  const AnimatedSection = ({ children, className = '' }) => {
+    const [ref, isIntersecting] = useIntersectionObserver({
+      threshold: 0.1,
+      triggerOnce: true,
+    });
+  
+    return (
+      <div
+        ref={ref}
+        className={`transition-all duration-1000 ${
+          isIntersecting
+            ? 'opacity-100 translate-y-0'
+            : 'opacity-0 translate-y-10'
+        } ${className}`}
+      >
+        {children}
+      </div>
+    );
+  };
 
   return (
+    <AnimatedSection>
+
     <div className=" mx-auto max-w-screen-xl py-4">
       {/* Contenedor del carrusel */}
       <div className="relative h-[300px] overflow-hidden rounded-lg sm:h-[400px] md:h-[500px]">
@@ -272,6 +318,7 @@ const CarruselPublicaciones = () => {
         </button>
       </div>
     </div>
+    </AnimatedSection>
   );
 };
 
