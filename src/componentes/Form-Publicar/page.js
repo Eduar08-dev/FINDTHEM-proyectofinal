@@ -184,6 +184,7 @@
 //   );
 // }
 
+
 import React, { useState } from "react";
 import { db, storage } from "../../lib/firebase";
 import { collection, addDoc } from "firebase/firestore";
@@ -208,6 +209,39 @@ export default function FormPublicar() {
     vestimenta: "",
     descripcionHechos: "",
   });
+  const validateForm = () => {
+    const requiredFields = [
+      "nombre",
+      "edad",
+      "estatura",
+      "sexo",
+      "colorPiel",
+      "contacto",
+      "grupoSanguineo",
+      "caracteristicasFisicas",
+      "condicion",
+      "barrio",
+      "ultimaUbicacion",
+      "diaSuceso",
+      "ultimaVezVista",
+      "parentesco",
+      "vestimenta",
+      "descripcionHechos",
+    ];
+  
+    for (let field of requiredFields) {
+      if (!formData[field]) {
+        return false;
+      }
+    }
+  
+    if (imagenes.length === 0) {
+      return false;
+    }
+  
+    return true;
+  };
+
   const [imagenes, setImagenes] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
@@ -224,11 +258,18 @@ export default function FormPublicar() {
     }
     setImagenes(Array.from(e.target.files));
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitMessage("");
+    
+    if (!validateForm()) {
+      setSubmitMessage("Por favor, complete todos los campos requeridos y suba al menos una imagen.");
+      setIsSubmitting(false);
+      return;
+    }
+  
 
     try {
       const imageUrls = await Promise.all(
