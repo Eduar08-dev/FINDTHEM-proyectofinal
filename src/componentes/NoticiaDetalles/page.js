@@ -104,7 +104,6 @@ const CardDetalles = ({ publicacion }) => {
     setIsGalleryOpen(true);
   };
 
-const CardDetalles = ({ publicacion }) => {
   return (
     <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
       <div className="flex justify-start mb-4">
@@ -123,6 +122,7 @@ const CardDetalles = ({ publicacion }) => {
             layout="fill"
             objectFit="contain"
           />
+        </div>
         <div className="p-6 text-black">
           <h1 className="text-3xl font-bold mb-4">{publicacionConFechaConvertida.nombre}</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -206,5 +206,6 @@ const CardDetalles = ({ publicacion }) => {
     </div>
   );
 };
+
 
 export default CardDetalles;

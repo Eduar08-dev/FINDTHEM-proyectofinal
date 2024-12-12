@@ -139,7 +139,6 @@ const CarruselPublicaciones = () => {
         </button>
       </div>
     </div>
-    </AnimatedSection>
   );
 };
 
