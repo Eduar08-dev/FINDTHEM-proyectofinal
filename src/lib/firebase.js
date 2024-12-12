@@ -19,10 +19,15 @@ const firebaseConfig = {
 
 // Inicializa Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 const db = getFirestore(app); // Inicializa Firestore
 const storage = getStorage(app); // Inicializa Storage
 const auth = getAuth(app); // Inicializa Auth
-
+let analytics = null;
+if (typeof window !== 'undefined') {
+  import('firebase/analytics').then((module) => {
+    const { getAnalytics } = module;
+    analytics = getAnalytics(app);
+  });
+}
 // Exporta db y storage para usarlos en otros archivos
 export { db, storage, auth };

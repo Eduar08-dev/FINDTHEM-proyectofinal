@@ -5,6 +5,7 @@ import { collection, query, orderBy, limit, onSnapshot } from 'firebase/firestor
 import { db } from '../../lib/firebase';
 import Image from 'next/image';
 import Link from 'next/link';
+// Removed unused imports
 
 const CardNoticias = () => {
   const [publicaciones, setPublicaciones] = useState([]);
@@ -69,7 +70,7 @@ const CardNoticias = () => {
       </div>
     );
   };
-
+  
   if (publicaciones.length === 0) {
     return <div className="flex justify-center text-2xl py-6 px-10">Cargando publicaciones...</div>;
   }
@@ -93,7 +94,7 @@ const CardNoticias = () => {
               <p className="text-gray-600 mb-2">Edad: {publicacion.edad}</p>
               <p className="text-gray-600 mb-2">Barrio: {publicacion.barrio}</p>
               <p className="text-gray-700 mt-4 line-clamp-3">{publicacion.descripcionHechos}</p>
-              <Link href={`/noticias${publicacion.id}`} passHref>
+              <Link href={`/noticias/${publicacion.id}`} passHref>
                 <p className="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
                   Ver más
                 </p>
