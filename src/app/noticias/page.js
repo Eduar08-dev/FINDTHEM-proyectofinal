@@ -8,7 +8,7 @@ import Footer from "@/componentes/Footer";
 export default function Page() {
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-r from-blue-200 to-Azul-Suave py-8 my-1 px-4 rounded-lg shadow-md">
+      <div className="min-h-screen bg-white">
        <Noticia />
       </div>
     </>

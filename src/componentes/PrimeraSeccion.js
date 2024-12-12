@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 const PrimeraSeccion = () => {
   return (
@@ -15,7 +16,9 @@ const PrimeraSeccion = () => {
           </p>
           <div className="flex flex-col items-center justify-center gap-4">
             <button className="w-6/12 rounded-lg bg-Azul-Suave p-3 font-sans text-xl text-white transition-colors hover:bg-Azul-Mediano sm:w-8/12 md:w-1/2">
+            <Link href="/inversa">
               Reportar
+            </Link>
             </button>
             <div className="text-xl text-Azul-Fuerte underline sm:text-2xl md:text-3xl">
               #UNIDOSHACEMOSLADIFERENCIA
