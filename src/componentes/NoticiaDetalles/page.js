@@ -1,104 +1,69 @@
-// /src/app/noticias/[id]/page.js
-"use client";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import GaleriaImagen from "../GaleriaImagen/page"; // Usando la ruta correcta
+import { db } from "@/lib/firebase";
+import { doc, getDoc } from 'firebase/firestore';
+import Image from 'next/image';
+import Link from 'next/link';
 
-const NoticiaDetalle = () => {
-  const pathname = usePathname();
-  const id = pathname.split("/").pop();
-  const [noticia, setNoticia] = useState(null);
+async function getPublicacion(id) {
+  const docRef = doc(db, 'personas_desaparecidas', id);
+  const docSnap = await getDoc(docRef);
 
-  useEffect(() => {
-    const fetchNoticia = () => {
-      const data = {
-        id,
-        nombre: "Daisy Perez Lopez",
-        barrio: "Riomar, Barranquilla/Atlántico",
-        edad: "33 Años",
-        ubicacion: "Cra. 57 #90-138",
-        diaSuceso: "01/01/2024",
-        horaVista: "9:24 PM",
-        condicion:
-          "Tipo de alergia, sufre de Alzheimer, es sordomuda, tiene autismo.",
-        images: [
-          "/toby.jpg",
-          "/tom.jpg",
-          "/Andrew.jpg",
-          "/actriz-gabriela-andrada_98.jpg",
-        ],
-      };
-      setNoticia(data);
-    };
-
-    if (id) {
-      fetchNoticia();
-    }
-  }, [id]);
-
-  if (!noticia) {
-    return <div>Loading...</div>;
+  if (docSnap.exists()) {
+    return { id: docSnap.id, ...docSnap.data() };
+  } else {
+    throw new Error('Publicación no encontrada');
   }
+}
 
-  return (
-    <div className="flex grid-cols-2 flex-col rounded-lg bg-white p-4 md:flex-row">
-      <div className="p-5 md:w-1/2">
-        {/* Pasa la clase 'separar-imagenes' solo a esta vista */}
-        <GaleriaImagen images={noticia.images} className="separar-imagenes" />
-      </div>
-      <div className="p-4 md:w-1/2">
-        <h1 className="text-2xl font-bold text-Azul-Suave">{noticia.nombre}</h1>
-        <div className="mb-1 mt-4 flex items-center text-xl">
-          <p className="flex-shrink-0 text-lg font-bold text-Azul-Suave">
-            Barrio:{" "}
-          </p>
-          <p className="ml-2 flex-grow text-lg text-Azul-Fuerte">
-            {noticia.barrio}
-          </p>
-        </div>
-        <div className="mb-1 flex items-center text-xl">
-          <p className="flex-shrink-0 text-lg font-bold text-Azul-Suave">
-            Edad:{" "}
-          </p>
-          <p className="ml-2 flex-grow text-lg text-Azul-Fuerte">
-            {noticia.edad}
-          </p>
-        </div>
-        <div className="mb-1 flex items-center text-xl">
-          <p className="flex-shrink-0 text-lg font-bold text-Azul-Suave">
-            Última ubicación:
-          </p>
-          <p className="ml-2 flex-grow text-lg text-Azul-Fuerte">
-            {noticia.ubicacion}
-          </p>
-        </div>
-        <div className="mb-1 flex items-center text-xl">
-          <p className="flex-shrink-0 text-lg font-bold text-Azul-Suave">
-            Día del suceso:
-          </p>
-          <p className="ml-2 flex-grow text-lg text-Azul-Fuerte">
-            {noticia.diaSuceso}
-          </p>
-        </div>
-        <div className="mb-1 flex items-center text-xl">
-          <p className="flex-shrink-0 text-lg font-bold text-Azul-Suave">
-            Última vez vista:
-          </p>
-          <p className="ml-2 flex-grow text-lg text-Azul-Fuerte">
-            {noticia.horaVista}
-          </p>
-        </div>
-        <div className="mb-1 flex items-center text-xl">
-          <p className="flex-shrink-0 text-lg font-bold text-Azul-Suave">
-            Condición:
-          </p>
-          <p className="ml-2 flex-grow text-lg text-Azul-Fuerte">
-            {noticia.condicion}
-          </p>
+export default async function PublicacionDetalle({ params }) {
+  try {
+    const publicacion = await getPublicacion(params.id);
+
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <Link href="/" className="text-blue-500 hover:underline mb-4 inline-block">
+          &larr; Volver a la lista
+        </Link>
+        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="relative h-96">
+            <Image
+              src={publicacion.imageUrls[0]}
+              alt={publicacion.nombre}
+              layout="fill"
+              objectFit="cover"
+            />
+          </div>
+          <div className="p-6">
+            <h1 className="text-3xl font-bold mb-4">{publicacion.nombre}</h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <p><strong>Edad:</strong> {publicacion.edad}</p>
+              <p><strong>Barrio:</strong> {publicacion.barrio}</p>
+              <p><strong>Última ubicación:</strong> {publicacion.ultimaUbicacion}</p>
+              <p><strong>Día del suceso:</strong> {publicacion.diaSuceso}</p>
+              <p><strong>Última vez vista:</strong> {publicacion.ultimaVezVista}</p>
+              <p><strong>Condición:</strong> {publicacion.condicion}</p>
+            </div>
+            <p className="mt-6 text-gray-700">{publicacion.descripcionHechos}</p>
+          </div>
+          <div className="p-6 bg-gray-100">
+            <h2 className="text-2xl font-semibold mb-4">Galería de imágenes</h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {publicacion.imageUrls.map((url, index) => (
+                <div key={index} className="relative h-48">
+                  <Image
+                    src={url}
+                    alt={`Imagen ${index + 1} de ${publicacion.nombre}`}
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-export default NoticiaDetalle;
+    );
+  } catch (error) {
+    return <div>Error: {error.message}</div>;
+  }
+}

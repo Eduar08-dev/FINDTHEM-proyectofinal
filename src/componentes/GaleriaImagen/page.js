@@ -113,7 +113,7 @@ export default function GaleriaImagen({ className = "" }) {
     const publicacionesRef = collection(db, 'personas_desaparecidas');
     
     // Consulta para obtener las publicaciones más recientes
-    const q = query(publicacionesRef, orderBy('fechaPublicacion', 'desc'),);
+    const q = query(publicacionesRef, orderBy('id'),);
 
     // Configurar un listener en tiempo real
     const unsubscribe = onSnapshot(q, async (querySnapshot) => {
