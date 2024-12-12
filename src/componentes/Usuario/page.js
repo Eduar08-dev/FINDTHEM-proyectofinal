@@ -53,6 +53,8 @@ const InfoUsuario = () => {
         contraseña,
       );
       
+      const user = userCredential.user;
+      
       let fotoURL = "";
       if (foto) {
         const storageRef = ref(storage, `fotos_usuarios/${user.uid}`);
