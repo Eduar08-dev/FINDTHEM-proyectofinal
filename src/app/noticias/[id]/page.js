@@ -36,4 +36,3 @@ export default async function PublicacionDetalle({ params }) {
     return <div>Error: {error.message}</div>;
   }
 }
-

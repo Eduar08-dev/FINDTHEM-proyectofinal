@@ -2,68 +2,34 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FaUserLock, FaUser, FaKey, FaEnvelope, FaBars, FaTimes } from "react-icons/fa";
+import { FaUserLock, FaUser, FaKey, FaEnvelope, FaBars } from "react-icons/fa6";
+import { FaTimes } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 import { auth, db } from "../../lib/firebase"; // Asegúrate de que la ruta es correcta
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import {
+  setDoc,
+  doc,
+  getDocs,
+  collection,
+  query,
+  where,
+} from "firebase/firestore";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoginView, setIsLoginView] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
   const handleToggle = () => {
     setShowPassword((prevState) => !prevState);
   };
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-  const toggleView = () => {
-    setIsLoginView((prevState) => !prevState);
-  };
   const toggleMenu = () => {
     setIsMenuOpen((prevState) => !prevState);
-  };
-
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Las contraseñas no coinciden.");
-      return;
-    }
-
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-      const user = userCredential.user;
-      console.log("Usuario registrado:", user);
-
-      // Guarda el nombre de usuario en Firestore
-      await setDoc(doc(db, "usuarios", user.uid), {
-        username,
-        email,
-      });
-
-      console.log("Usuario guardado en Firestore");
-
-      // Redirige al usuario a completar su perfil
-      Router.push(`/complete-profile?userId=${user.uid}`);
-    } catch (error) {
-      console.error("Error al registrar el usuario:", error);
-    }
   };
 
   const handleLogin = async (e) => {
@@ -91,6 +57,14 @@ const Navbar = () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, [isMenuOpen]);
+
+  const handleCreateAccount = () => {
+    // Cierra el modal
+    document.getElementById("my_modal_2").close();
+    // Redirige a la página de registro
+    window.location.href = "/usuario"; // Alternativa a useRouter para redirigir
+  };
+
   return (
     <nav className="navbar relative flex items-center justify-between">
       <div
@@ -187,171 +161,59 @@ const Navbar = () => {
       </div>
       <dialog id="my_modal_2" className="modal backdrop-blur-lg">
         <div className="modal-box flex flex-col items-center justify-center overflow-hidden bg-Azul-Fuerte">
-          <AnimatePresence mode="wait">
-            {isLoginView ? (
-              <motion.div
-                key="login"
-                initial={{ opacity: 0, x: -100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 100 }}
-                transition={{ duration: 0.5 }}
-                className="w-full"
-              >
-                <h3 className="mb-4 text-center text-lg font-bold text-white">
-                  Iniciar sesión
-                </h3>
-                <form
-                  onSubmit={handleLogin}
-                  className="flex w-full flex-col items-center"
-                >
-                  <label className="input input-bordered my-2 flex w-72 items-center gap-3 bg-white text-Azul-Fuerte">
-                    <FaEnvelope />
-                    <input
-                      type="email"
-                      className="grow"
-                      placeholder="Correo electrónico"
-                      value={loginEmail}
-                      onChange={(e) => setLoginEmail(e.target.value)}
-                    />
-                  </label>
-                  <label
-                    htmlFor="loginPassword"
-                    className="input input-bordered my-2 flex w-72 items-center gap-3 bg-white text-Azul-Fuerte"
-                  >
-                    <FaKey />
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      className="grow"
-                      id="loginPassword"
-                      placeholder="**********"
-                      value={loginPassword}
-                      onChange={(e) => setLoginPassword(e.target.value)}
-                    />
-                    <input
-                      className="flex"
-                      type="checkbox"
-                      id="showPassword"
-                      checked={showPassword}
-                      onChange={handleToggle}
-                    />
-                  </label>
-                  <Link href="/">
-                    <span className="my-2 hover:underline">
-                      ¿Has olvidado la contraseña?
-                    </span>
-                  </Link>
-                  <button
-                    type="submit"
-                    className="btn my-2 w-72 bg-Azul-Suave text-white hover:bg-Azul-Mediano"
-                  >
-                    Ingresar
-                  </button>
-                  <div className="divider divider-neutral">o</div>
-                  <button
-                    type="button"
-                    className="btn my-2 w-72 bg-Azul-Suave text-white hover:bg-Azul-Mediano"
-                    onClick={toggleView}
-                  >
-                    Crear cuenta
-                  </button>
-                </form>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="register"
-                initial={{ opacity: 0, x: -100 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 100 }}
-                transition={{ duration: 0.5 }}
-                className="w-full"
-              >
-                <h3 className="mb-4 text-center text-lg font-bold text-white">
-                  Crear cuenta
-                </h3>
-                <form
-                  onSubmit={handleRegister}
-                  className="flex w-full flex-col items-center"
-                >
-                  <label className="input input-bordered my-2 flex w-72 items-center gap-3 bg-white text-Azul-Fuerte">
-                    <FaUser />
-                    <input
-                      type="text"
-                      className="grow"
-                      placeholder="Usuario"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
-                    />
-                  </label>
-                  <label className="input input-bordered my-2 flex w-72 items-center gap-3 bg-white text-Azul-Fuerte">
-                    <FaEnvelope />
-                    <input
-                      type="email"
-                      className="grow"
-                      placeholder="Correo electrónico"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </label>
-                  <label
-                    htmlFor="password"
-                    className="input input-bordered my-2 flex w-72 items-center gap-3 bg-white text-Azul-Fuerte"
-                  >
-                    <FaKey />
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      className="grow"
-                      id="password"
-                      placeholder="*******"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <input
-                      className="flex"
-                      type="checkbox"
-                      id="showPassword"
-                      checked={showPassword}
-                      onChange={handleToggle}
-                    />
-                  </label>
-                  <label
-                    htmlFor="confirmPassword"
-                    className="input input-bordered my-2 flex w-72 items-center gap-3 bg-white text-Azul-Fuerte"
-                  >
-                    <FaKey />
-                    <input
-                      type={showPassword ? "text" : "password"}
-                      className="grow"
-                      id="confirmPassword"
-                      placeholder="Confirmar contraseña"
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                    <input
-                      className="flex"
-                      type="checkbox"
-                      id="showPassword"
-                      checked={showPassword}
-                      onChange={handleToggle}
-                    />
-                  </label>
-                  <button
-                    type="submit"
-                    className="btn my-2 w-72 bg-Azul-Suave text-white hover:bg-Azul-Mediano"
-                  >
-                    Registrar
-                  </button>
-                  <div className="divider divider-neutral">o</div>
-                  <button
-                    type="button"
-                    className="btn my-2 w-72 bg-Azul-Suave text-white hover:bg-Azul-Mediano"
-                    onClick={toggleView}
-                  >
-                    Iniciar sesión
-                  </button>
-                </form>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <h3 className="mb-4 text-center text-lg font-bold text-white">
+            Iniciar sesión
+          </h3>
+          <form
+            onSubmit={handleLogin}
+            className="flex w-full flex-col items-center"
+          >
+            <label className="input input-bordered my-2 flex w-72 items-center gap-3 bg-white text-Azul-Fuerte">
+              <FaEnvelope />
+              <input
+                type="email"
+                className="grow"
+                placeholder="Correo electrónico"
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
+              />
+            </label>
+            <label
+              htmlFor="loginPassword"
+              className="input input-bordered my-2 flex w-72 items-center gap-3 bg-white text-Azul-Fuerte"
+            >
+              <FaKey />
+              <input
+                type={showPassword ? "text" : "password"}
+                className="grow"
+                id="loginPassword"
+                placeholder="**********"
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+              />
+              <input
+                className="flex"
+                type="checkbox"
+                id="showPassword"
+                checked={showPassword}
+                onChange={handleToggle}
+              />
+            </label>
+            <button
+              type="submit"
+              className="btn my-2 w-72 bg-Azul-Suave text-white hover:bg-Azul-Mediano"
+            >
+              Ingresar
+            </button>
+            <div className="divider divider-neutral">o</div>
+            <button
+              type="button"
+              className="btn my-2 w-72 bg-Azul-Suave text-white hover:bg-Azul-Mediano"
+              onClick={handleCreateAccount}
+            >
+              Crear cuenta
+            </button>
+          </form>
         </div>
         <form method="dialog" className="modal-backdrop">
           <button>close</button>
@@ -360,6 +222,5 @@ const Navbar = () => {
     </nav>
   );
 };
+
 export default Navbar;
-
-
