@@ -6,7 +6,6 @@ import { FaUserLock, FaUser, FaKey, FaEnvelope, FaBars } from "react-icons/fa6";
 import { FaTimes } from "react-icons/fa";
 import { useAuth } from "@/context/AuthContext";
 import { signOut } from "firebase/auth";
-import { motion, AnimatePresence } from "framer-motion";
 import { auth, db } from "../../lib/firebase"; // Asegúrate de que la ruta es correcta
 import {
   createUserWithEmailAndPassword,
