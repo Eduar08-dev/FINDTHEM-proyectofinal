@@ -47,9 +47,12 @@ const InfoUsuario = () => {
     }
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, correo, contraseña);
-      const user = userCredential.user;
-
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        correo,
+        contraseña,
+      );
+      
       let fotoURL = "";
       if (foto) {
         const storageRef = ref(storage, `fotos_usuarios/${user.uid}`);
@@ -88,13 +91,35 @@ const InfoUsuario = () => {
   return (
     <form onSubmit={handleCrearUsuario} className="bg-white p-4 font-sans">
       <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dotted border-blue-600 p-4">
-        <span className="mb-4 text-3xl font-bold text-blue-600">Información Usuario</span>
+        <span className="mb-4 text-3xl font-bold text-blue-600">
+          Información Usuario
+        </span>
         <div className="w-full">
           <div className="grid grid-cols-1 gap-4 p-3 text-black sm:grid-cols-2 md:grid-cols-3">
-            <InputField label="Nombre de usuario:" value={usuario} onChange={setUsuario} placeholder="daisyperez" />
-            <InputField label="Nombre:" value={nombre} onChange={setNombre} placeholder="Daisy" />
-            <InputField label="Apellido:" value={apellido} onChange={setApellido} placeholder="Perez" />
-            <InputField label="Correo:" value={correo} onChange={setCorreo} placeholder="daisy@gmail.com" />
+            <InputField
+              label="Nombre de usuario:"
+              value={usuario}
+              onChange={setUsuario}
+              placeholder="daisyperez"
+            />
+            <InputField
+              label="Nombre:"
+              value={nombre}
+              onChange={setNombre}
+              placeholder="Daisy"
+            />
+            <InputField
+              label="Apellido:"
+              value={apellido}
+              onChange={setApellido}
+              placeholder="Perez"
+            />
+            <InputField
+              label="Correo:"
+              value={correo}
+              onChange={setCorreo}
+              placeholder="daisy@gmail.com"
+            />
             <PasswordInput
               label="Contraseña:"
               value={contraseña}
@@ -109,8 +134,18 @@ const InfoUsuario = () => {
               showPassword={showConfirmPassword}
               toggleShowPassword={handleToggleConfirmPassword}
             />
-            <InputField label="Número de teléfono:" value={telefono} onChange={setTelefono} placeholder="+57 3001234567" />
-            <SelectField label="Sexo:" value={sexo} onChange={setSexo} options={["Masculino", "Femenino"]} />
+            <InputField
+              label="Número de teléfono:"
+              value={telefono}
+              onChange={setTelefono}
+              placeholder="+57 3001234567"
+            />
+            <SelectField
+              label="Sexo:"
+              value={sexo}
+              onChange={setSexo}
+              options={["Masculino", "Femenino"]}
+            />
             <FileInput label="Foto de perfil:" onChange={setFoto} />
           </div>
           <div className="flex justify-end p-3">
@@ -125,7 +160,10 @@ const InfoUsuario = () => {
           {submitMessage && (
             <div
               className={`mt-4 p-2 text-center ${
-                submitMessage.includes("éxito") ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+
+                submitMessage.includes("éxito")
+                  ? "bg-green-100 text-green-700"
+                  : "bg-red-100 text-red-700"
               }`}
             >
               {submitMessage}
@@ -150,7 +188,14 @@ const InputField = ({ label, value, onChange, placeholder }) => (
   </div>
 );
 
-const PasswordInput = ({ label, value, onChange, showPassword, toggleShowPassword }) => (
+
+const PasswordInput = ({
+  label,
+  value,
+  onChange,
+  showPassword,
+  toggleShowPassword,
+}) => (
   <div className="flex flex-col">
     <label className="text-blue-600">{label}</label>
     <div className="relative w-full">
@@ -162,7 +207,8 @@ const PasswordInput = ({ label, value, onChange, showPassword, toggleShowPasswor
       />
       <button
         type="button"
-        className="absolute right-2 top-1/2 transform -translate-y-1/2 text-sm text-gray-600"
+
+        className="absolute right-2 top-1/2 -translate-y-1/2 transform text-sm text-gray-600"
         onClick={toggleShowPassword}
       >
         {showPassword ? "Ocultar" : "Mostrar"}

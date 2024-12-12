@@ -1,13 +1,29 @@
-'use client';
 
-import { useState } from "react";
-import {db, storage} from "../../lib/firebase";
-import {collection, addDoc} from "firebase/firestore";
-import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
+"use client";
 
+import React, { useState, useEffect } from "react";
+import { db, storage } from "../../lib/firebase";
+import { collection, addDoc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { useAuth } from "@/context/AuthContext"; // Importamos el contexto de autenticación
+import { useRouter } from "next/navigation"; // Para redirigir si no estamos logueados
 
 export default function FormInversa() {
-   const [form, setForm] = useState ({
+  const { user } = useAuth(); // Obtenemos el usuario autenticado
+  const router = useRouter(); // Para redirigir al usuario si no está autenticado
+
+  useEffect(() => {
+    if (!user) {
+      // Si no hay usuario logueado, redirigir a la página de login
+      router.push("/");
+    }
+  }, [user, router]); // Se ejecuta solo cuando el `user` cambia
+
+  if (!user) {
+    // Mientras se hace la redirección, puedes mostrar un "loading" o alguna interfaz de espera.
+    return <div>Cargando...</div>;
+  }
+  const [form, setForm] = useState({
     dia: "",
     barrio: "",
     edad: "",
@@ -18,92 +34,105 @@ export default function FormInversa() {
     vestimenta: "",
     descripcion: "",
     condicion: "",
-   });
-    const validarForm = () => {
-      const requeridos = ["dia", "barrio", "edad", "estatura", "telefono", "ubicacion", "sexo", "vestimenta", "descripcion", "condicion"];
-      for (let i = 0; i < requeridos.length; i++) {
-        if (form[requeridos[i]] === "") {
-          setMensajeEnviado("¡Por favor, complete todos los campos y suba al menos una foto!");
-          setEnviar(false);
-          return false;
-        }
+  });
+  const validarForm = () => {
+    const requeridos = [
+      "dia",
+      "barrio",
+      "edad",
+      "estatura",
+      "telefono",
+      "ubicacion",
+      "sexo",
+      "vestimenta",
+      "descripcion",
+      "condicion",
+    ];
+    for (let i = 0; i < requeridos.length; i++) {
+      if (form[requeridos[i]] === "") {
+        setMensajeEnviado(
+          "¡Por favor, complete todos los campos y suba al menos una foto!",
+        );
+        setEnviar(false);
+        return false;
       }
-      return true;
-    };
-    
-    const [fotos, setFotos] = useState([]);
-    const [enviar, setEnviar] = useState(false);
-    const [mensajeEnviado, setMensajeEnviado] = useState("");
+    }
+    return true;
+  };
 
-    const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setForm({ ...form, [name]: value });
-      };
+  const [fotos, setFotos] = useState([]);
+  const [enviar, setEnviar] = useState(false);
+  const [mensajeEnviado, setMensajeEnviado] = useState("");
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
 
   const handleFileChange = (e) => {
-      const archivos = Array.from(e.target.files);
-      if (archivos.length > 4) {
-        alert("Solo se permiten 4 fotos");
-        return;
-      }
-      const fotosArray = [];
-      const uploadPromises = archivos.map((archivo) => {
-        const storageRef = ref(storage, `fotos/${archivo.name}`);
-        return uploadBytes(storageRef, archivo).then((snapshot) => {
-          return getDownloadURL(snapshot.ref).then((url) => {
-            fotosArray.push(url);
-          });
+    const archivos = Array.from(e.target.files);
+    if (archivos.length > 4) {
+      alert("Solo se permiten 4 fotos");
+      return;
+    }
+    const fotosArray = [];
+    const uploadPromises = archivos.map((archivo) => {
+      const storageRef = ref(storage, `fotos/${archivo.name}`);
+      return uploadBytes(storageRef, archivo).then((snapshot) => {
+        return getDownloadURL(snapshot.ref).then((url) => {
+          fotosArray.push(url);
         });
       });
-  
-      Promise.all(uploadPromises).then(() => {
-        setFotos(fotosArray);
-      });
-    };
-  
-    const handleEnviar = async (e) => {
-      e.preventDefault(); // Prevent default form submission
-      if (validarForm()) {
-        setEnviar(true);
-        setMensajeEnviado("");
-        try {
-          // Upload photos first
-          const uploadedPhotos = await Promise.all(
-            fotos.map(async (foto, index) => {
-              const storageRef = ref(storage, `fotos/${Date.now()}_${index}`);
-              const snapshot = await uploadBytes(storageRef, foto);
-              return getDownloadURL(snapshot.ref);
-            })
-          );
-  
-          // Add document to Firestore
-          const docRef = await addDoc(collection(db, "busqueda_inversa"), {
-            ...form,
-            fotos: uploadedPhotos,
-          });
-          console.log("Document written with ID: ", docRef.id);
-          setMensajeEnviado("Publicación exitosa");
-          setForm({
-            dia: "",
-            barrio: "",
-            edad: "",
-            estatura: "",
-            telefono: "",
-            ubicacion: "",
-            sexo: "",
-            vestimenta: "",
-            descripcion: "",
-            condicion: "",
-          });
-          setFotos([]);
-        } catch (error) {
-          console.error("Error al enviar el formulario:", error);
-          setMensajeEnviado("Error al enviar el formulario. Intenta nuevamente");
-        } finally {
-          setEnviar(false);
-        }
+    });
+
+    Promise.all(uploadPromises).then(() => {
+      setFotos(fotosArray);
+    });
+  };
+
+  const handleEnviar = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+    if (validarForm()) {
+      setEnviar(true);
+      setMensajeEnviado("");
+      try {
+        // Upload photos first
+        const uploadedPhotos = await Promise.all(
+          fotos.map(async (foto, index) => {
+            const storageRef = ref(storage, `fotos/${Date.now()}_${index}`);
+            const snapshot = await uploadBytes(storageRef, foto);
+            return getDownloadURL(snapshot.ref);
+          }),
+        );
+
+        // Add document to Firestore
+        const docRef = await addDoc(collection(db, "busqueda_inversa"), {
+          ...form,
+          fotos: uploadedPhotos,
+        });
+        console.log("Document written with ID: ", docRef.id);
+        setMensajeEnviado("Publicación exitosa");
+        setForm({
+          dia: "",
+          barrio: "",
+          edad: "",
+          estatura: "",
+          telefono: "",
+          ubicacion: "",
+          sexo: "",
+          vestimenta: "",
+          descripcion: "",
+          condicion: "",
+        });
+        setFotos([]);
+      } catch (error) {
+        console.error("Error al enviar el formulario:", error);
+        setMensajeEnviado("Error al enviar el formulario. Intenta nuevamente");
+      } finally {
+        setEnviar(false);
       }
-    };
+    }
+  };
 
   return (
     <form onSubmit={handleEnviar} className="bg-white p-4 font-sans">
@@ -210,9 +239,9 @@ export default function FormInversa() {
             <div className="flex w-full flex-col items-start">
               <span className="text-left text-Azul-Fuerte">Vestimenta:</span>
               <textarea
-              name="vestimenta"
-              value={form.vestimenta}
-              onChange={handleInputChange}     
+                name="vestimenta"
+                value={form.vestimenta}
+                onChange={handleInputChange}
                 placeholder="Camisa (color), Pantalón, Accesorios..."
                 className="textarea textarea-bordered w-full bg-Azul-Fuerte"
               ></textarea>
@@ -222,9 +251,9 @@ export default function FormInversa() {
                 Descripción de la persona:
               </span>
               <textarea
-              name="descripcion"
-              value={form.descripcion}
-              onChange={handleInputChange}
+                name="descripcion"
+                value={form.descripcion}
+                onChange={handleInputChange}
                 placeholder="Se encuentra desorientada, no recuerda su información personal, etc."
                 className="textarea textarea-bordered w-full bg-Azul-Fuerte"
               ></textarea>
@@ -233,9 +262,9 @@ export default function FormInversa() {
             <div className="flex w-full flex-col items-start">
               <span className="text-left text-Azul-Fuerte">Condición:</span>
               <textarea
-              name="condicion"
-              value={form.condicion}
-              onChange={handleInputChange}   
+                name="condicion"
+                value={form.condicion}
+                onChange={handleInputChange}
                 placeholder="Tiene alzheimer, es sordomudo, tiene autismo..."
                 className="textarea textarea-bordered h-12 w-full bg-Azul-Fuerte"
               ></textarea>
@@ -257,15 +286,17 @@ export default function FormInversa() {
             </div>
           </div>
           <div className="flex flex-row flex-wrap justify-center gap-3 p-3">
-            <button 
-            type="button"
-            onClick={handleEnviar}
-            className={`btn flex items-center text-lg w-1/2 gap-2 ${enviar ? "bg-white text-black" : "bg-Azul-Mediano text-white"} hover:bg-Azul-Suave`}>
+            <button
+              type="button"
+              onClick={handleEnviar}
+              className={`btn flex w-1/2 items-center gap-2 text-lg ${enviar ? "bg-white text-black" : "bg-Azul-Mediano text-white"} hover:bg-Azul-Suave`}
+            >
               {enviar ? "Enviando..." : "Enviar"}
             </button>
           </div>
         </div>
-        </div>
-      </form>
+      </div>
+    </form>
+
   );
   }

@@ -29,12 +29,12 @@ const CardNoticias = () => {
   const useIntersectionObserver = (options = {}) => {
     const ref = useRef(null);
     const [isIntersecting, setIsIntersecting] = useState(false);
-
+    
     useEffect(() => {
       const observer = new IntersectionObserver(([entry]) => {
         setIsIntersecting(entry.isIntersecting);
       }, options);
-
+      
       if (ref.current) {
         observer.observe(ref.current);
       }
@@ -48,13 +48,12 @@ const CardNoticias = () => {
 
     return [ref, isIntersecting];
   };
-
+  
   const AnimatedCard = ({ children, className = '' }) => {
     const [ref, isIntersecting] = useIntersectionObserver({
       threshold: 0.1,
       triggerOnce: true,
     });
-
     return (
       <div
         ref={ref}
@@ -68,7 +67,6 @@ const CardNoticias = () => {
       </div>
     );
   };
-
   if (publicaciones.length === 0) {
     return <div className="flex justify-center text-2xl py-6 px-10">Cargando publicaciones...</div>;
   }
@@ -114,3 +112,4 @@ const CardNoticias = () => {
 };
 
 export default CardNoticias;
+

@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect } from "react";
@@ -5,8 +6,24 @@ import { db, storage, auth, isDevelopment } from "../../lib/firebase";
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { signInAnonymously } from "firebase/auth";
+import { useAuth } from "../../context/AuthContext"; // Importamos el contexto de autenticación
+import { useRouter } from "next/navigation"; // Para redirigir si no estamos logueados
 
 export default function FormPublicar() {
+  const { user } = useAuth(); // Obtenemos el usuario autenticado
+  const router = useRouter(); // Para redirigir al usuario si no está autenticado
+
+  useEffect(() => {
+    if (!user) {
+      // Si no hay usuario logueado, redirigir a la página de login
+      router.push("/");
+    }
+  }, [user, router]); // Se ejecuta solo cuando el `user` cambia
+
+  if (!user) {
+    // Mientras se hace la redirección, puedes mostrar un "loading" o alguna interfaz de espera.
+    return <div>Cargando...</div>;
+  }
 
   const [formData, setFormData] = useState({
     nombre: "",
@@ -45,17 +62,17 @@ export default function FormPublicar() {
       "vestimenta",
       "descripcionHechos",
     ];
-  
+
     for (let field of requiredFields) {
       if (!formData[field]) {
         return false;
       }
     }
-  
+
     if (imagenes.length === 0) {
       return false;
     }
-  
+
     return true;
   };
 
@@ -78,18 +95,17 @@ export default function FormPublicar() {
     }
     setImagenes(Array.from(e.target.files));
   };
-  
+
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
   //   setIsSubmitting(true);
   //   setSubmitMessage("");
-    
+
   //   if (!validateForm()) {
   //     setSubmitMessage("Por favor, complete todos los campos requeridos y suba al menos una imagen.");
   //     setIsSubmitting(false);
   //     return;
   //   }
-  
 
   //   try {
   //     const imageUrls = await Promise.all(
@@ -128,7 +144,7 @@ export default function FormPublicar() {
           const imageRef = ref(storage, `imagenes/${imagen.name}`);
           await uploadBytes(imageRef, imagen);
           return getDownloadURL(imageRef);
-        })
+        }),
       );
 
       console.log("Image URLs:", imageUrls); // Verifica que las URLs se generen correctamente
@@ -163,7 +179,9 @@ export default function FormPublicar() {
       setImagenes([]);
     } catch (error) {
       console.error("Error al enviar el formulario: ", error);
-      setSubmitMessage("Error al enviar el formulario. Por favor, intenta de nuevo.");
+      setSubmitMessage(
+        "Error al enviar el formulario. Por favor, intenta de nuevo.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -389,16 +407,18 @@ export default function FormPublicar() {
             </div>
           </div>
           <div className="flex flex-row flex-wrap justify-center gap-3 p-3">
-          <button 
-           type="submit"
-           disabled={isSubmitting}
-           className={`btn flex items-center text-lg w-1/2 gap-2 ${isSubmitting ? "bg-white text-black" : "bg-Azul-Mediano text-white"} hover:bg-Azul-Suave`}
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className={`btn flex w-1/2 items-center gap-2 text-lg ${isSubmitting ? "bg-white text-black" : "bg-Azul-Mediano text-white"} hover:bg-Azul-Suave`}
             >
               {isSubmitting ? "Enviando..." : "Publicar"}
             </button>
           </div>
           {submitMessage && (
-            <div className={`mt-4 p-2 text-center ${submitMessage.includes("éxito") ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
+            <div
+              className={`mt-4 p-2 text-center ${submitMessage.includes("éxito") ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}
+            >
               {submitMessage}
             </div>
           )}
@@ -407,4 +427,3 @@ export default function FormPublicar() {
     </form>
   );
 }
-

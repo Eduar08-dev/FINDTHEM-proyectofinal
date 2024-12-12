@@ -49,9 +49,7 @@ const CarruselPublicaciones = () => {
     return <div className="flex justify-center text-6xl py-6 px-10">Cargando carrusel informativo...</div>;
   }
 
-
   return (
-  
     <div className=" mx-auto max-w-screen-xl py-4">
       {/* Contenedor del carrusel */}
       <div className="relative h-[300px] overflow-hidden rounded-lg sm:h-[400px] md:h-[500px]">
@@ -141,6 +139,7 @@ const CarruselPublicaciones = () => {
         </button>
       </div>
     </div>
+    </AnimatedSection>
   );
 };
 
