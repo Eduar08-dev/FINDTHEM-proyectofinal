@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaUserLock, FaUser, FaKey, FaEnvelope, FaBars } from "react-icons/fa6";
 import { FaTimes } from "react-icons/fa";
+import { useAuth } from "@/context/AuthContext";
+import { signOut } from "firebase/auth";
 import { motion, AnimatePresence } from "framer-motion";
 import { auth, db } from "../../lib/firebase"; // Asegúrate de que la ruta es correcta
 import {
@@ -24,32 +26,28 @@ const Navbar = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const { user } = useAuth(); // Accedemos al usuario autenticado
 
   const handleToggle = () => {
     setShowPassword((prevState) => !prevState);
   };
+
   const toggleMenu = () => {
     setIsMenuOpen((prevState) => !prevState);
   };
 
+  // Función para manejar el cierre de sesión
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth); // Cerrar sesión en Firebase
+      console.log("Sesión cerrada correctamente");
+    } catch (error) {
+      console.error("Error al cerrar sesión", error);
+    }
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (!loginEmail || !loginPassword) {
-      alert("Por favor, ingrese su correo electrónico y contraseña.");
-      return;
-    }
-
-    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailRegex.test(loginEmail)) {
-      alert("Por favor, ingrese un correo electrónico válido.");
-      return;
-    }
-
-    if (loginPassword.length < 6) {
-      alert("La contraseña debe tener al menos 6 caracteres.");
-      return;
-    }
-
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -57,6 +55,8 @@ const Navbar = () => {
         loginPassword,
       );
       console.log("Usuario autenticado:", userCredential.user);
+      alert("Sesión iniciada correctamente");
+      document.getElementById("my_modal_2").close(); // Cierra el modal
     } catch (error) {
       console.error("Error al autenticar el usuario:", error);
       if (error.code === "auth/wrong-password") {
@@ -74,6 +74,7 @@ const Navbar = () => {
       setIsMenuOpen(false);
     }
   };
+
   useEffect(() => {
     document.addEventListener("click", handleClickOutside);
     return () => {
@@ -127,28 +128,42 @@ const Navbar = () => {
             <li>
               <Link href="/noticias">Noticias</Link>
             </li>
-            <li>
-              <details>
-                <summary>Búsqueda</summary>
-                <ul className="z-10 rounded-t-none bg-Azul-Fuerte p-1">
-                  <li>
-                    <Link href="/publica">Solicitar búsqueda</Link>
-                  </li>
-                  <li>
-                    <Link href="/inversa">Búsqueda inversa</Link>
-                  </li>
-                </ul>
-              </details>
-            </li>
+            {user && (
+              <li>
+                <details>
+                  <summary>Búsqueda</summary>
+                  <ul className="z-10 rounded-t-none bg-Azul-Fuerte p-1">
+                    <li>
+                      <Link href="/publica">Solicitar búsqueda</Link>
+                    </li>
+                    <li>
+                      <Link href="/inversa">Búsqueda inversa</Link>
+                    </li>
+                  </ul>
+                </details>
+              </li>
+            )}
           </ul>
         </div>
         <div className="z-10 flex items-center justify-between space-x-2 md:flex">
-          <button
-            className="btn bg-Azul-Suave text-white hover:bg-Azul-Mediano"
-            onClick={() => document.getElementById("my_modal_2").showModal()}
-          >
-            <FaUserLock className="h-5 w-5" /> Usuario
-          </button>
+          {/* Mostrar el botón de iniciar sesión si no hay usuario logueado */}
+          {!user ? (
+            <button
+              className="btn bg-Azul-Suave text-white hover:bg-Azul-Mediano"
+              onClick={() => document.getElementById("my_modal_2").showModal()}
+            >
+              <FaUserLock className="h-5 w-5" /> Usuario
+            </button>
+          ) : (
+            // Mostrar el botón de cerrar sesión si el usuario está logueado
+            <button
+              className="btn bg-Azul-Suave text-white hover:bg-Azul-Mediano"
+              onClick={handleSignOut}
+            >
+              Cerrar sesión
+            </button>
+          )}
+
           <button className="p-2 text-white md:hidden" onClick={toggleMenu}>
             {isMenuOpen ? <FaTimes /> : <FaBars />}
           </button>

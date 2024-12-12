@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "@/componentes/Navbar/page";
 import Footer from "@/componentes/Footer";
 import Nosotros from "@/componentes/Nosotros/page";
+import { AuthProvider } from "@/context/AuthContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,14 +33,17 @@ export default function RootLayout({ children }) {
         <link rel="icon" type="image/png" href="/favicon.png" />
       </head>
       <body>
-        <header>
-          <Nosotros />
-          <Navbar />
-        </header>
-        {children}
-        <footer>
-          <Footer />
-        </footer>
+        <AuthProvider>
+          <header>
+            <Nosotros />
+
+            <Navbar />
+          </header>
+          {children}
+          <footer>
+            <Footer />
+          </footer>
+        </AuthProvider>
       </body>
     </html>
   );

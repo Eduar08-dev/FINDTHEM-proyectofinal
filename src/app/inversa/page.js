@@ -8,7 +8,6 @@ export default function Page() {
     <>
       <div className="min-h-screen bg-white">
         <FormInversa />
-        <Footer />
       </div>
     </>
   );
