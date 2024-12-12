@@ -16,7 +16,7 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "FIND-THEM",
+  title: "Find Them",
   description: "",
 };
 
@@ -24,16 +24,21 @@ export default function RootLayout({ children }) {
   return (
     <html lang="es">
       <head>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+        ></meta>
+        {/* Agregar el favicon en formato PNG */}
+        <link rel="icon" type="image/png" href="/favicon.png" />
       </head>
       <body>
         <header>
-          <Nosotros/>
-          <Navbar/>
+          <Nosotros />
+          <Navbar />
         </header>
         {children}
         <footer>
-          <Footer/>
+          <Footer />
         </footer>
       </body>
     </html>
