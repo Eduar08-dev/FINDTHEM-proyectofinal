@@ -36,6 +36,7 @@ const Navbar = () => {
     setIsMenuOpen((prevState) => !prevState);
   };
 
+
   // Función para manejar el cierre de sesión
   const handleSignOut = async () => {
     try {

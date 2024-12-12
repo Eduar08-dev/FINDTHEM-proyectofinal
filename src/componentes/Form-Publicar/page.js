@@ -1,4 +1,5 @@
-"use client";
+
+'use client';
 
 import React, { useState, useEffect } from "react";
 import { db, storage, auth, isDevelopment } from "../../lib/firebase";
@@ -75,13 +76,16 @@ export default function FormPublicar() {
     return true;
   };
 
+
   const [imagenes, setImagenes] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
+  
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [name]: value });;
   };
 
   const handleFileChange = (e) => {
@@ -124,14 +128,12 @@ export default function FormPublicar() {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitMessage("");
-
+    
     console.log("Form Data:", formData);
     console.log("Images:", imagenes);
 
     if (!validateForm()) {
-      setSubmitMessage(
-        "¡Por favor, complete todos los campos requeridos y suba al menos una imagen.!",
-      );
+      setSubmitMessage("¡Por favor, complete todos los campos requeridos y suba al menos una imagen.!");
       setIsSubmitting(false);
       return;
     }

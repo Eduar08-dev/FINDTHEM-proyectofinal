@@ -52,8 +52,7 @@ const InfoUsuario = () => {
         correo,
         contraseña,
       );
-      const user = userCredential.user;
-
+      
       let fotoURL = "";
       if (foto) {
         const storageRef = ref(storage, `fotos_usuarios/${user.uid}`);
@@ -161,6 +160,7 @@ const InfoUsuario = () => {
           {submitMessage && (
             <div
               className={`mt-4 p-2 text-center ${
+
                 submitMessage.includes("éxito")
                   ? "bg-green-100 text-green-700"
                   : "bg-red-100 text-red-700"
@@ -188,6 +188,7 @@ const InputField = ({ label, value, onChange, placeholder }) => (
   </div>
 );
 
+
 const PasswordInput = ({
   label,
   value,
@@ -206,6 +207,7 @@ const PasswordInput = ({
       />
       <button
         type="button"
+
         className="absolute right-2 top-1/2 -translate-y-1/2 transform text-sm text-gray-600"
         onClick={toggleShowPassword}
       >
