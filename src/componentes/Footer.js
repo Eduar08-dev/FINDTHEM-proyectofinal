@@ -21,15 +21,20 @@ const Footer = () => {
         <div className="flex flex-col flex-nowrap content-center items-center justify-center space-y-2">
           <span className="flex items-center text-sm">
             <FaMapLocationDot className="mr-1 h-4 w-4" />
-            <span>Barranquilla, Colombia</span>
+            <a
+              href="https://www.google.com/maps?q=10.9634,-74.7966"
+              target="_blank"
+            >
+              Barranquilla, Colombia
+            </a>
           </span>
           <span className="flex items-center text-sm">
             <FaPhoneVolume className="mr-1 h-4 w-4" />
-            <span>+57 3001234567</span>
+            <a href="tel:+573001234567">+57 3001234567</a>
           </span>
           <span className="flex items-center text-sm">
             <FaEnvelope className="mr-1 h-4 w-4" />
-            <span>support@findthem.com</span>
+            <a href="mailto:support@findthem.com">support@findthem.com</a>
           </span>
         </div>
       </div>
@@ -40,19 +45,19 @@ const Footer = () => {
         </h3>
         <div className="flex flex-col flex-nowrap content-center items-center justify-center space-y-2">
           <a
-            href=""
+            href="https://www.facebook.com"
             className="flex items-center text-sm hover:text-Azul-Mediano"
           >
             <FaFacebookF className="mr-1 h-4 w-4" /> Facebook
           </a>
           <a
-            href=""
+            href="https://www.instagram.com"
             className="flex items-center text-sm hover:text-Azul-Mediano"
           >
             <FaInstagram className="mr-1 h-4 w-4" /> Instagram
           </a>
           <a
-            href=""
+            href="https://www.twitter.com"
             className="flex items-center text-sm hover:text-Azul-Mediano"
           >
             <FaXTwitter className="mr-1 h-4 w-4" /> Twitter

@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -7,8 +6,50 @@ import { collection, addDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useAuth } from "@/context/AuthContext"; // Importamos el contexto de autenticación
 import { useRouter } from "next/navigation"; // Para redirigir si no estamos logueados
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function FormInversa() {
+  const [usuarioVerificado, setUsuarioVerificado] = useState(false);
+  const [usuario, setUsuario] = useState(null);
+
+  useEffect(() => {
+    const auth = getAuth();
+
+    // Escuchar cambios en el estado de autenticación del usuario
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Verificar si el correo está verificado
+        setUsuario(user);
+        setUsuarioVerificado(user.emailVerified);
+      } else {
+        setUsuario(null);
+        setUsuarioVerificado(false);
+      }
+    });
+
+    // Limpiar el listener cuando el componente se desmonte
+    return () => unsubscribe();
+  }, []);
+
+  // Si el usuario no está autenticado o el correo no ha sido verificado, no mostrar el componente
+  if (!usuario || !usuarioVerificado) {
+    return (
+      <div className="flex flex-col flex-nowrap content-center items-center justify-center gap-[20px] py-52 text-Azul-Fuerte">
+        <h1 className="flex text-4xl font-bold">
+          Verificación de correo electronico
+        </h1>
+        <p className="flex w-7/12 text-xl">
+          Para poder crear una búsqueda inversa, debemos verificar tu correo
+          electrónico, para eso te hemos enviado un enlace de verificación a tu
+          correo electrónico. Por favor, verifica tu bandeja de entrada y haz
+          clic en el enlace para continuar.
+        </p>
+        <p className="flex w-7/12 content-end items-end justify-end">
+          Equipo de Find Them.
+        </p>
+      </div>
+    );
+  }
   const { user } = useAuth(); // Obtenemos el usuario autenticado
   const router = useRouter(); // Para redirigir al usuario si no está autenticado
 
@@ -297,6 +338,5 @@ export default function FormInversa() {
         </div>
       </div>
     </form>
-
   );
-  }
+}

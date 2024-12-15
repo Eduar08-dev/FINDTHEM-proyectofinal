@@ -1,5 +1,4 @@
-
-'use client';
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { db, storage, auth, isDevelopment } from "../../lib/firebase";
@@ -8,8 +7,51 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { signInAnonymously } from "firebase/auth";
 import { useAuth } from "../../context/AuthContext"; // Importamos el contexto de autenticación
 import { useRouter } from "next/navigation"; // Para redirigir si no estamos logueados
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function FormPublicar() {
+  const [usuarioVerificado, setUsuarioVerificado] = useState(false);
+  const [usuario, setUsuario] = useState(null);
+
+  useEffect(() => {
+    const auth = getAuth();
+
+    // Escuchar cambios en el estado de autenticación del usuario
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Verificar si el correo está verificado
+        setUsuario(user);
+        setUsuarioVerificado(user.emailVerified);
+      } else {
+        setUsuario(null);
+        setUsuarioVerificado(false);
+      }
+    });
+
+    // Limpiar el listener cuando el componente se desmonte
+    return () => unsubscribe();
+  }, []);
+
+  // Si el usuario no está autenticado o el correo no ha sido verificado, no mostrar el componente
+  if (!usuario || !usuarioVerificado) {
+    return (
+      <div className="flex flex-col flex-nowrap content-center items-center justify-center gap-[20px] py-52 text-Azul-Fuerte">
+        <h1 className="flex text-4xl font-bold">
+          Verificación de correo electronico
+        </h1>
+        <p className="flex w-7/12 text-xl">
+          Para poder crear una solicitud de búsqueda, debemos verificar tu
+          correo electrónico, para eso te hemos enviado un enlace de
+          verificación a tu correo electrónico. Por favor, verifica tu bandeja
+          de entrada y haz clic en el enlace para continuar.
+        </p>
+        <p className="flex w-7/12 content-end items-end justify-end">
+          Equipo de Find Them.
+        </p>
+      </div>
+    );
+  }
+
   const { user } = useAuth(); // Obtenemos el usuario autenticado
   const router = useRouter(); // Para redirigir al usuario si no está autenticado
 
@@ -76,16 +118,13 @@ export default function FormPublicar() {
     return true;
   };
 
-
   const [imagenes, setImagenes] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitMessage, setSubmitMessage] = useState("");
-  
-
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleFileChange = (e) => {
@@ -128,12 +167,14 @@ export default function FormPublicar() {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitMessage("");
-    
+
     console.log("Form Data:", formData);
     console.log("Images:", imagenes);
 
     if (!validateForm()) {
-      setSubmitMessage("¡Por favor, complete todos los campos requeridos y suba al menos una imagen.!");
+      setSubmitMessage(
+        "¡Por favor, complete todos los campos requeridos y suba al menos una imagen.!",
+      );
       setIsSubmitting(false);
       return;
     }
