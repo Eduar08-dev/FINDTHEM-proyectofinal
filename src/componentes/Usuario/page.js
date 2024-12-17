@@ -2,9 +2,15 @@
 
 import { useState } from "react";
 import { db, storage, auth } from "../../lib/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { getDoc, doc, setDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  fetchSignInMethodsForEmail,
+  updateProfile,
+} from "firebase/auth";
 
 const InfoUsuario = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -29,6 +35,19 @@ const InfoUsuario = () => {
     setShowConfirmPassword((prevState) => !prevState);
   };
 
+  const verificarNombreUsuario = async (nombreUsuario) => {
+    const usuarioRef = doc(db, "usuarios", nombreUsuario);
+    const docSnap = await getDoc(usuarioRef);
+
+    if (docSnap.exists()) {
+      // El nombre de usuario ya está en uso
+      return false; // El nombre de usuario ya está registrado
+    } else {
+      // El nombre de usuario está disponible
+      return true;
+    }
+  };
+
   const handleCrearUsuario = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -46,15 +65,29 @@ const InfoUsuario = () => {
       return;
     }
 
+    // Verificar si el nombre de usuario ya está registrado en Firestore
+    const nombreDisponible = await verificarNombreUsuario(usuario);
+    if (!nombreDisponible) {
+      setSubmitMessage(
+        "El nombre de usuario ya está en uso. Por favor, elige otro.",
+      );
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
+      const auth = getAuth();
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         correo,
         contraseña,
       );
-      
       const user = userCredential.user;
-      localStorage.setItem("uid", user.uid);
+
+      if (user) {
+        await sendEmailVerification(user);
+      }
+
       let fotoURL = "";
       if (foto) {
         const storageRef = ref(storage, `fotos_usuarios/${user.uid}`);
@@ -63,6 +96,7 @@ const InfoUsuario = () => {
         await updateProfile(user, { photoURL: fotoURL });
       }
 
+      // Guardar los datos del usuario en Firestore
       await setDoc(doc(db, "usuarios", user.uid), {
         usuario,
         nombre,
@@ -73,7 +107,9 @@ const InfoUsuario = () => {
         fotoURL,
       });
 
-      setSubmitMessage("Usuario creado con éxito");
+      setSubmitMessage(
+        "Usuario creado con éxito. Te hemos enviado un correo de verificación.",
+      );
       setUsuario("");
       setNombre("");
       setApellido("");
@@ -84,7 +120,13 @@ const InfoUsuario = () => {
       setSexo("");
       setFoto(null);
     } catch (error) {
-      setSubmitMessage(`Error al crear el usuario: ${error.message}`);
+      if (error.code === "auth/email-already-in-use") {
+        setSubmitMessage(
+          "El correo electrónico ya está en uso. Por favor, utiliza otro.",
+        );
+      } else {
+        setSubmitMessage(`Error al crear el usuario: ${error.message}`);
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -162,7 +204,6 @@ const InfoUsuario = () => {
           {submitMessage && (
             <div
               className={`mt-4 p-2 text-center ${
-
                 submitMessage.includes("éxito")
                   ? "bg-green-100 text-green-700"
                   : "bg-red-100 text-red-700"
@@ -182,14 +223,13 @@ const InputField = ({ label, value, onChange, placeholder }) => (
     <label className="text-blue-600">{label}</label>
     <input
       type="text"
-      className="input input-bordered h-12 w-full bg-gray-200"
+      className="input input-bordered h-12 w-full bg-Azul-Fuerte text-white"
       placeholder={placeholder}
       value={value}
       onChange={(e) => onChange(e.target.value)}
     />
   </div>
 );
-
 
 const PasswordInput = ({
   label,
@@ -203,14 +243,14 @@ const PasswordInput = ({
     <div className="relative w-full">
       <input
         type={showPassword ? "text" : "password"}
-        className="input input-bordered h-12 w-full bg-gray-200"
+        className="input input-bordered h-12 w-full bg-Azul-Fuerte text-white"
         value={value}
+        placeholder="••••••••••"
         onChange={(e) => onChange(e.target.value)}
       />
       <button
         type="button"
-
-        className="absolute right-2 top-1/2 -translate-y-1/2 transform text-sm text-gray-600"
+        className="absolute right-2 top-1/2 -translate-y-1/2 transform text-sm text-white"
         onClick={toggleShowPassword}
       >
         {showPassword ? "Ocultar" : "Mostrar"}
@@ -223,7 +263,7 @@ const SelectField = ({ label, value, onChange, options }) => (
   <div className="flex flex-col">
     <label className="text-blue-600">{label}</label>
     <select
-      className="select select-bordered h-12 w-full bg-gray-200"
+      className="select select-bordered h-12 w-full bg-Azul-Fuerte text-white"
       value={value}
       onChange={(e) => onChange(e.target.value)}
     >
@@ -244,7 +284,7 @@ const FileInput = ({ label, onChange }) => (
     <label className="text-blue-600">{label}</label>
     <input
       type="file"
-      className="file-input file-input-bordered h-12 w-full bg-gray-200"
+      className="file-input file-input-bordered h-12 w-full bg-Azul-Fuerte text-white"
       accept="image/*"
       onChange={(e) => onChange(e.target.files[0])}
     />

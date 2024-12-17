@@ -16,9 +16,7 @@ const PrimeraSeccion = () => {
           </p>
           <div className="flex flex-col items-center justify-center gap-4">
             <button className="w-6/12 rounded-lg bg-Azul-Suave p-3 font-sans text-xl text-white transition-colors hover:bg-Azul-Mediano sm:w-8/12 md:w-1/2">
-            <Link href="/inversa">
-              Reportar
-            </Link>
+              <Link href="/inversa">Reportar</Link>
             </button>
             <div className="text-xl text-Azul-Fuerte underline sm:text-2xl md:text-3xl">
               #UNIDOSHACEMOSLADIFERENCIA
@@ -27,15 +25,25 @@ const PrimeraSeccion = () => {
 
           {/* {lineas de atencion} */}
           <div className="flex flex-col space-y-4 text-lg sm:flex-row sm:space-x-4 sm:space-y-0 md:justify-around">
-            <div className="flex items-center rounded-lg bg-Azul-Suave p-2 text-white">
-              <span>Línea Nacional:</span>
-              <a href="tel:018000117175" className="ml-2 hover:underline">
+            <div className="flex items-center p-2">
+              <span className="font-bold text-Azul-Fuerte">
+                Línea Exterior:
+              </span>
+              <a
+                href="tel:018000117175"
+                className="ml-2 text-Azul-Suave hover:underline"
+              >
                 xxxxxxxxxx
               </a>
             </div>
-            <div className="flex items-center rounded-lg bg-Azul-Suave p-2 text-white">
-              <span>Línea Exterior:</span>
-              <a href="tel:+573192783318" className="ml-2 hover:underline">
+            <div className="flex items-center p-2">
+              <span className="font-bold text-Azul-Fuerte">
+                Línea Nacional:
+              </span>
+              <a
+                href="tel:+573001234567"
+                className="ml-2 text-Azul-Suave hover:underline"
+              >
                 (+57) xxxxxxxxxx
               </a>
             </div>
