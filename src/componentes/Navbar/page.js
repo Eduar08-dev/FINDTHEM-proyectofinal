@@ -66,7 +66,7 @@ const Navbar = () => {
         loginPassword,
       );
       console.log("Usuario autenticado:", userCredential.user);
-      localStorage.setItem("uid", userCredential.user.uid);
+      localStorage.setItem("uid", userCredential.user.uid); //Se crea un item en el localStorage, en este caso, el UID del usuario
       alert("Sesión iniciada correctamente");
       document.getElementById("my_modal_2").close(); // Cierra el modal
     } catch (error) {
