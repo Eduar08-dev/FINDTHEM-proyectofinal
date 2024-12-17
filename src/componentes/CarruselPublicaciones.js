@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { collection, query, orderBy, limit, onSnapshot } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import Image from "next/image";
 
 
 const CarruselPublicaciones = () => {
@@ -61,11 +62,18 @@ const CarruselPublicaciones = () => {
           <div className="flex h-full w-full">
             {publicaciones.map((publicacion) => (
               <div key={publicacion.id} className="relative h-full min-w-full">
-                <img
-                  src={publicacion.imageUrls[0]}
-                  alt={publicacion.nombre}
-                  className="h-full w-full object-cover md:object-contain"
+               {Array.isArray(publicacion.imageUrls) && publicacion.imageUrls.length > 0 ? (
+                <Image
+                src={publicacion.imageUrls[0]}
+                alt={publicacion.nombre || 'Imagen'}
+                layout="fill"
+                objectFit="contain"
                 />
+                ) : (
+                <div className="bg-gray-200 w-full h-full flex items-center justify-center font-bold text-xl">
+                 <p>Sin Fotos</p>
+                </div>
+              )}
                 {/* Overlay con texto */}
                 <div className="absolute inset-0 flex flex-col justify-end bg-black/40 p-4 sm:p-6 md:p-8">
                   <h3 className="mb-2 text-2xl font-bold text-white sm:text-3xl md:text-4xl lg:text-5xl">

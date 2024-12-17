@@ -54,7 +54,7 @@ const InfoUsuario = () => {
       );
       
       const user = userCredential.user;
-      
+      localStorage.setItem("uid", user.uid);
       let fotoURL = "";
       if (foto) {
         const storageRef = ref(storage, `fotos_usuarios/${user.uid}`);

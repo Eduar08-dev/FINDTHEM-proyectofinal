@@ -39,6 +39,7 @@ const Navbar = () => {
   // Función para manejar el cierre de sesión
   const handleSignOut = async () => {
     try {
+      localStorage.removeItem("uid"); 
       await signOut(auth); // Cerrar sesión en Firebase
       console.log("Sesión cerrada correctamente");
     } catch (error) {
@@ -55,6 +56,7 @@ const Navbar = () => {
         loginPassword,
       );
       console.log("Usuario autenticado:", userCredential.user);
+      localStorage.setItem("uid", userCredential.user.uid);
       alert("Sesión iniciada correctamente");
       document.getElementById("my_modal_2").close(); // Cierra el modal
     } catch (error) {
@@ -83,7 +85,7 @@ const Navbar = () => {
   }, [isMenuOpen]);
 
   const handleCreateAccount = () => {
-    // Cierra el modal
+    
     document.getElementById("my_modal_2").close();
     // Redirige a la página de registro
     window.location.href = "/usuario"; // Alternativa a useRouter para redirigir
@@ -138,6 +140,9 @@ const Navbar = () => {
                     </li>
                     <li>
                       <Link href="/inversa">Búsqueda inversa</Link>
+                    </li>
+                    <li>
+                      <Link href="/perfil">Perfil de ususario</Link>
                     </li>
                   </ul>
                 </details>

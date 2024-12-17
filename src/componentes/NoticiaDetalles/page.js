@@ -104,108 +104,102 @@ const CardDetalles = ({ publicacion }) => {
     setIsGalleryOpen(true);
   };
 
-  return (
-    <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
-      <div className="flex justify-start mb-4">
-        <Link
-          href="/noticias"
-          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md"
-        >
-          &larr; Volver a la lista
-        </Link>
-      </div>
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        <div className="relative h-96 w-full">
+  // Asegurarse de que `imageUrls` sea un arreglo válido antes de mapear
+const images = Array.isArray(publicacionConFechaConvertida.imageUrls) ? publicacionConFechaConvertida.imageUrls : [];
+
+return (
+  <div className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
+    <div className="flex justify-start mb-4">
+      <Link
+        href="/noticias"
+        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md"
+      >
+        &larr; Volver a la lista
+      </Link>
+    </div>
+    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="relative h-96 w-full">
+        {images.length > 0 ? (
           <Image
-            src={publicacionConFechaConvertida.imageUrls[0]}
-            alt={publicacionConFechaConvertida.nombre}
+            src={images[0]}
+            alt={publicacionConFechaConvertida.nombre || 'Imagen'}
             layout="fill"
             objectFit="contain"
           />
-        </div>
-        <div className="p-6 text-black">
-          <h1 className="text-3xl font-bold mb-4">{publicacionConFechaConvertida.nombre}</h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <p>
-              <strong>Edad:</strong> {publicacionConFechaConvertida.edad}
-            </p>
-            <p>
-              <strong>Barrio:</strong> {publicacionConFechaConvertida.barrio}
-            </p>
-            <p>
-              <strong>Última ubicación:</strong> {publicacionConFechaConvertida.ultimaUbicacion}
-            </p>
-            <p>
-              <strong>Día del suceso:</strong> {publicacionConFechaConvertida.diaSuceso}
-            </p>
-            <p>
-              <strong>Última vez vista:</strong> {publicacionConFechaConvertida.ultimaVezVista}
-            </p>
-            <p>
-              <strong>Condición:</strong> {publicacionConFechaConvertida.condicion}
-            </p>
+        ) : (
+          <div className="bg-gray-200 w-full h-full flex items-center justify-center font-bold text-xl">
+            <p>Sin Fotos</p>
           </div>
-          <p className="mt-6 text-black text-xl">
-            {publicacionConFechaConvertida.descripcionHechos}
-          </p>
+        )}
+      </div>
+      <div className="p-6 text-black">
+        <h1 className="text-3xl font-bold mb-4">{publicacionConFechaConvertida.nombre}</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <p><strong>Edad:</strong> {publicacionConFechaConvertida.edad}</p>
+          <p><strong>Barrio:</strong> {publicacionConFechaConvertida.barrio}</p>
+          <p><strong>Última ubicación:</strong> {publicacionConFechaConvertida.ultimaUbicacion}</p>
+          <p><strong>Día del suceso:</strong> {publicacionConFechaConvertida.diaSuceso}</p>
+          <p><strong>Última vez vista:</strong> {publicacionConFechaConvertida.ultimaVezVista}</p>
+          <p><strong>Condición:</strong> {publicacionConFechaConvertida.condicion}</p>
         </div>
-        <div className="p-6 bg-gray-100">
-          <h2 className="text-2xl font-semibold mb-4">Galería de imágenes</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            {publicacionConFechaConvertida.imageUrls.map((url, index) => (
-              <div
-                key={index}
-                className="relative h-48 cursor-pointer"
-                onClick={() => handleOpen(index)}
-              >
-                <Image
-                  src={url}
-                  alt={`Imagen ${index + 1} de ${publicacionConFechaConvertida.nombre}`}
-                  layout="fill"
-                  objectFit="contain"
-                  className="rounded shadow-md"
-                />
-              </div>
-            ))}
-          </div>
+        <p className="mt-6 text-black text-xl">{publicacionConFechaConvertida.descripcionHechos}</p>
+      </div>
+      <div className="p-6 bg-gray-100">
+        <h2 className="text-2xl font-semibold mb-4">Galería de imágenes</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          {images.map((url, index) => (
+            <div
+              key={index}
+              className="relative h-48 cursor-pointer"
+              onClick={() => handleOpen(index)}
+            >
+              <Image
+                src={url}
+                alt={`Imagen ${index + 1} de ${publicacionConFechaConvertida.nombre}`}
+                layout="fill"
+                objectFit="contain"
+                className="rounded shadow-md"
+              />
+            </div>
+          ))}
         </div>
       </div>
-
-      {isGalleryOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-          <div className="relative max-w-4xl w-full">
-            <button
-              onClick={handleClose}
-              className="absolute top-4 right-6 text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-full shadow-md"
-            >
-              X
-            </button>
-            <button
-              onClick={handlePrev}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white bg-gray-700 hover:bg-gray-800 px-4 py-2 rounded-full shadow-md"
-            >
-              &larr;
-            </button>
-            <Image
-              src={publicacionConFechaConvertida.imageUrls[currentIndex]}
-              alt={`Imagen ${currentIndex + 1} de ${publicacionConFechaConvertida.nombre}`}
-              width={800}
-              height={500}
-              objectFit="contain"
-              className="rounded shadow-md mx-auto"
-            />
-            <button
-              onClick={handleNext}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white bg-gray-700 hover:bg-gray-800 px-4 py-2 rounded-full shadow-md"
-            >
-              &rarr;
-            </button>
-          </div>
-        </div>
-      )}
     </div>
-  );
-};
 
+    {isGalleryOpen && (
+      <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+        <div className="relative max-w-xl w-full">
+          <button
+            onClick={handleClose}
+            className="absolute top-4 right-4 text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-full shadow-md"
+          >
+            X
+          </button>
+          <button
+            onClick={handlePrev}
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white bg-gray-700 hover:bg-gray-800 px-4 py-2 rounded-full shadow-md"
+          >
+            &larr;
+          </button>
+          <Image
+            src={images[currentIndex]}
+            alt={`Imagen ${currentIndex + 1} de ${publicacionConFechaConvertida.nombre}`}
+            width={800}
+            height={500}
+            objectFit="contain"
+            className="rounded shadow-md mx-auto"
+          />
+          <button
+            onClick={handleNext}
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white bg-gray-700 hover:bg-gray-800 px-4 py-2 rounded-full shadow-md"
+          >
+            &rarr;
+          </button>
+        </div>
+      </div>
+    )}
+  </div>
+);
+};
 
 export default CardDetalles;

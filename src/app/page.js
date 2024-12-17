@@ -25,7 +25,7 @@ export default function Home() {
         </div>
         <CarruselPublicaciones />
       </div>
-      <Modulos />
+      <Modulos/>
       <PrimeraSeccion />
     </main>
   );
