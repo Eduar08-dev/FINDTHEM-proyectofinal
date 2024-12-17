@@ -5,7 +5,7 @@ import Link from "next/link";
 import { FaUserLock, FaUser, FaKey, FaEnvelope, FaBars } from "react-icons/fa6";
 import { FaTimes } from "react-icons/fa";
 import { useAuth } from "@/context/AuthContext";
-import { signOut } from "firebase/auth";
+import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../../lib/firebase"; // Asegúrate de que la ruta es correcta
 import {
   createUserWithEmailAndPassword,
@@ -25,7 +25,16 @@ const Navbar = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
-  const { user } = useAuth(); // Accedemos al usuario autenticado
+  const [user, setUser] = useState(null);
+  const auth = getAuth();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, [auth]);
 
   const handleToggle = () => {
     setShowPassword((prevState) => !prevState);
@@ -35,12 +44,13 @@ const Navbar = () => {
     setIsMenuOpen((prevState) => !prevState);
   };
 
-
   // Función para manejar el cierre de sesión
   const handleSignOut = async () => {
     try {
       await signOut(auth); // Cerrar sesión en Firebase
       console.log("Sesión cerrada correctamente");
+      setUser(null); // Actualizar el estado de usuario a null
+      window.location.href = "/"; // Redirigir a la página de inicio (u otra página)
     } catch (error) {
       console.error("Error al cerrar sesión", error);
     }
@@ -225,7 +235,7 @@ const Navbar = () => {
                 type={showPassword ? "text" : "password"}
                 className="grow"
                 id="loginPassword"
-                placeholder="**********"
+                placeholder="••••••••••"
                 value={loginPassword}
                 onChange={(e) => setLoginPassword(e.target.value)}
               />

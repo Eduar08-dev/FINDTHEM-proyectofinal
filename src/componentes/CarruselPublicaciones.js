@@ -1,30 +1,35 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { collection, query, orderBy, limit, onSnapshot } from 'firebase/firestore';
-import { db } from '../lib/firebase';
-
+import {
+  collection,
+  query,
+  orderBy,
+  limit,
+  onSnapshot,
+} from "firebase/firestore";
+import { db } from "../lib/firebase";
 
 const CarruselPublicaciones = () => {
   const [publicaciones, setPublicaciones] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  
+
   useEffect(() => {
     const q = query(
-      collection(db, 'personas_desaparecidas'),
-      orderBy('fechaPublicacion'),
+      collection(db, "personas_desaparecidas"),
+      orderBy("fechaPublicacion"),
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const nuevasPublicaciones = snapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
+      const nuevasPublicaciones = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
       }));
 
       if (nuevasPublicaciones.length > 3) {
-      setPublicaciones(nuevasPublicaciones.slice(-3).reverse());
+        setPublicaciones(nuevasPublicaciones.slice(-3).reverse());
       } else {
-      setPublicaciones(nuevasPublicaciones.reverse());
+        setPublicaciones(nuevasPublicaciones.reverse());
       }
     });
 
@@ -34,7 +39,7 @@ const CarruselPublicaciones = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIndex((prevIndex) =>
-        prevIndex === publicaciones.length - 1 ? 0 : prevIndex + 1
+        prevIndex === publicaciones.length - 1 ? 0 : prevIndex + 1,
       );
     }, 5000);
 
@@ -46,11 +51,15 @@ const CarruselPublicaciones = () => {
   };
 
   if (publicaciones.length === 0) {
-    return <div className="flex justify-center text-6xl py-6 px-10">Cargando carrusel informativo...</div>;
+    return (
+      <div className="flex justify-center px-10 py-6 text-6xl">
+        Cargando carrusel informativo...
+      </div>
+    );
   }
 
   return (
-    <div className=" mx-auto max-w-screen-xl py-4">
+    <div className="mx-auto max-w-screen-xl py-4">
       {/* Contenedor del carrusel */}
       <div className="relative h-[300px] overflow-hidden rounded-lg sm:h-[400px] md:h-[500px]">
         {/* Imágenes */}
@@ -87,7 +96,9 @@ const CarruselPublicaciones = () => {
               key={index}
               onClick={() => goToSlide(index)}
               className={`h-3 w-3 rounded-full transition-colors duration-300 ${
-                currentIndex === index ? "bg-white" : "bg-white/50 hover:bg-white/70"
+                currentIndex === index
+                  ? "bg-white"
+                  : "bg-white/50 hover:bg-white/70"
               }`}
               aria-label={`Ir a imagen ${index + 1}`}
             />
@@ -98,12 +109,14 @@ const CarruselPublicaciones = () => {
         <button
           className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full bg-black/30 p-2 text-white transition hover:bg-black/50"
           onClick={() =>
-            goToSlide(currentIndex === 0 ? publicaciones.length - 1 : currentIndex - 1)
+            goToSlide(
+              currentIndex === 0 ? publicaciones.length - 1 : currentIndex - 1,
+            )
           }
           aria-label="Anterior"
         >
           <svg
-            className="w-6 h-6"
+            className="h-6 w-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -119,12 +132,14 @@ const CarruselPublicaciones = () => {
         <button
           className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full bg-black/30 p-2 text-white transition hover:bg-black/50"
           onClick={() =>
-            goToSlide(currentIndex === publicaciones.length - 1 ? 0 : currentIndex + 1)
+            goToSlide(
+              currentIndex === publicaciones.length - 1 ? 0 : currentIndex + 1,
+            )
           }
           aria-label="Siguiente"
         >
           <svg
-            className="w-6 h-6"
+            className="h-6 w-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -143,4 +158,3 @@ const CarruselPublicaciones = () => {
 };
 
 export default CarruselPublicaciones;
-
