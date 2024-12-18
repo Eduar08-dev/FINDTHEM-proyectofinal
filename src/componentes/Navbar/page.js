@@ -141,27 +141,28 @@ const Navbar = () => {
               <Link href="/noticias">Noticias</Link>
             </li>
             {user && (
-              <li>
-                <details>
-                  <summary>Búsqueda</summary>
-                  <ul className="z-10 rounded-t-none bg-Azul-Fuerte p-1">
-                    <li>
-                      <Link href="/publica">Solicitar búsqueda</Link>
-                    </li>
-                    <li>
-                      <Link href="/inversa">Búsqueda inversa</Link>
-                    </li>
-                    <li>
-                      <Link href="/perfil">Perfil de ususario</Link>
-                    </li>
-                  </ul>
-                </details>
-              </li>
+              <>
+                <li>
+                  <details>
+                    <summary>Búsqueda</summary>
+                    <ul className="z-10 rounded-t-none bg-Azul-Fuerte p-1">
+                      <li>
+                        <Link href="/publica">Solicitar búsqueda</Link>
+                      </li>
+                      <li>
+                        <Link href="/inversa">Búsqueda inversa</Link>
+                      </li>
+                    </ul>
+                  </details>
+                </li>
+                <li className="flex items-center">
+                  <Link href="/perfil">Mi perfil</Link>
+                </li>
+              </>
             )}
           </ul>
         </div>
         <div className="z-10 flex items-center justify-between space-x-2 md:flex">
-          {/* Mostrar el botón de iniciar sesión si no hay usuario logueado */}
           {!user ? (
             <button
               className="btn bg-Azul-Suave text-white hover:bg-Azul-Mediano"
@@ -170,7 +171,6 @@ const Navbar = () => {
               <FaUserLock className="h-5 w-5" /> Usuario
             </button>
           ) : (
-            // Mostrar el botón de cerrar sesión si el usuario está logueado
             <button
               className="btn bg-Azul-Suave text-white hover:bg-Azul-Mediano"
               onClick={handleSignOut}
@@ -209,6 +209,9 @@ const Navbar = () => {
                 </li>
               </ul>
             </details>
+            <div className="flex items-center">
+              <Link href="/perfil">Mi perfil</Link>
+            </div>
           </li>
         </ul>
       </div>
