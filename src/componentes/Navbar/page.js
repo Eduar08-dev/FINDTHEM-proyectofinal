@@ -47,7 +47,7 @@ const Navbar = () => {
   // Función para manejar el cierre de sesión
   const handleSignOut = async () => {
     try {
-      localStorage.removeItem("uid"); 
+      localStorage.removeItem("uid");
       await signOut(auth); // Cerrar sesión en Firebase
       console.log("Sesión cerrada correctamente");
       setUser(null); // Actualizar el estado de usuario a null
@@ -95,7 +95,6 @@ const Navbar = () => {
   }, [isMenuOpen]);
 
   const handleCreateAccount = () => {
-    
     document.getElementById("my_modal_2").close();
     // Redirige a la página de registro
     window.location.href = "/usuario"; // Alternativa a useRouter para redirigir
@@ -130,7 +129,7 @@ const Navbar = () => {
       ></div>
       <div className="relative flex w-full items-center justify-between text-white md:justify-center">
         <div className="ml-0 flex items-center justify-center space-x-4 md:ml-48 md:flex md:space-x-8">
-          <ul className="menu menu-horizontal hidden space-x-4 px-1 md:flex lg:mx-72">
+          <ul className="menu menu-horizontal hidden space-x-4 px-1 md:flex lg:mx-64">
             <li>
               <Link href="/">Inicio</Link>
             </li>
@@ -155,7 +154,7 @@ const Navbar = () => {
                     </ul>
                   </details>
                 </li>
-                <li className="flex items-center">
+                <li>
                   <Link href="/perfil">Mi perfil</Link>
                 </li>
               </>
@@ -189,6 +188,9 @@ const Navbar = () => {
       >
         <ul className="menu menu-sm z-[1] w-52 rounded-b-lg bg-Azul-Fuerte p-2 shadow">
           <li>
+            <Link href="/perfil">Mi perfil</Link>
+          </li>
+          <li>
             <Link href="/">Inicio</Link>
           </li>
           <li>
@@ -209,9 +211,6 @@ const Navbar = () => {
                 </li>
               </ul>
             </details>
-            <div className="flex items-center">
-              <Link href="/perfil">Mi perfil</Link>
-            </div>
           </li>
         </ul>
       </div>

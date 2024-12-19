@@ -1,11 +1,11 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react';
-import { doc, updateDoc } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db, storage } from '../lib/firebase';
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+import { useState, useEffect } from "react";
+import { doc, updateDoc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { db, storage } from "../lib/firebase";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function EditProfile({ userId, initialUserData }) {
   const [userData, setUserData] = useState(initialUserData);
@@ -16,7 +16,7 @@ export default function EditProfile({ userId, initialUserData }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUserData(prev => ({ ...prev, [name]: value }));
+    setUserData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleFileChange = (e) => {
@@ -31,7 +31,7 @@ export default function EditProfile({ userId, initialUserData }) {
     setError(null);
 
     try {
-      const userRef = doc(db, 'users', userId);
+      const userRef = doc(db, "users", userId);
       let updatedData = { ...userData };
 
       if (profilePicture) {
@@ -42,9 +42,9 @@ export default function EditProfile({ userId, initialUserData }) {
       }
 
       await updateDoc(userRef, updatedData);
-      router.push('/profile');
+      router.push("/profile");
     } catch (err) {
-      setError('Error al actualizar el perfil');
+      setError("Error al actualizar el perfil");
       console.error(err);
     } finally {
       setLoading(false);
@@ -52,12 +52,15 @@ export default function EditProfile({ userId, initialUserData }) {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-16">
+    <div className="mx-auto mt-16 max-w-md overflow-hidden rounded-lg bg-white shadow-custom-shadow">
       <form onSubmit={handleSubmit} className="p-6">
-        <h2 className="text-2xl font-semibold mb-6">Editar Perfil</h2>
-        
+        <h2 className="mb-6 text-2xl font-semibold">Editar Perfil</h2>
+
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="profilePicture">
+          <label
+            className="mb-2 block text-sm font-bold text-gray-700"
+            htmlFor="profilePicture"
+          >
             Foto de Perfil
           </label>
           <input
@@ -77,9 +80,12 @@ export default function EditProfile({ userId, initialUserData }) {
             />
           )}
         </div>
-        
+
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+          <label
+            className="mb-2 block text-sm font-bold text-gray-700"
+            htmlFor="name"
+          >
             Nombre
           </label>
           <input
@@ -88,12 +94,15 @@ export default function EditProfile({ userId, initialUserData }) {
             name="name"
             value={userData.nombre}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
           />
         </div>
-        
+
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+          <label
+            className="mb-2 block text-sm font-bold text-gray-700"
+            htmlFor="email"
+          >
             Email
           </label>
           <input
@@ -102,12 +111,15 @@ export default function EditProfile({ userId, initialUserData }) {
             name="email"
             value={userData.correo}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
           />
         </div>
-        
+
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="phone">
+          <label
+            className="mb-2 block text-sm font-bold text-gray-700"
+            htmlFor="phone"
+          >
             Teléfono
           </label>
           <input
@@ -116,12 +128,15 @@ export default function EditProfile({ userId, initialUserData }) {
             name="phone"
             value={userData.telefono}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
           />
         </div>
-        
+
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="address">
+          <label
+            className="mb-2 block text-sm font-bold text-gray-700"
+            htmlFor="address"
+          >
             Dirección
           </label>
           <input
@@ -130,12 +145,15 @@ export default function EditProfile({ userId, initialUserData }) {
             name="address"
             value={userData.direccionResidencia}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
           />
         </div>
-        
+
         <div className="mb-6">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="birthDate">
+          <label
+            className="mb-2 block text-sm font-bold text-gray-700"
+            htmlFor="birthDate"
+          >
             Fecha de Nacimiento
           </label>
           <input
@@ -144,24 +162,24 @@ export default function EditProfile({ userId, initialUserData }) {
             name="birthDate"
             value={userData.fechaNacimiento}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
           />
         </div>
-        
-        {error && <p className="text-red-500 text-xs italic mb-4">{error}</p>}
-        
+
+        {error && <p className="mb-4 text-xs italic text-red-500">{error}</p>}
+
         <div className="flex items-center justify-between">
           <button
             type="submit"
             disabled={loading}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="focus:shadow-outline rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
           >
-            {loading ? 'Actualizando...' : 'Actualizar Perfil'}
+            {loading ? "Actualizando..." : "Actualizar Perfil"}
           </button>
           <button
             type="button"
-            onClick={() => router.push('/profile')}
-            className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            onClick={() => router.push("/profile")}
+            className="focus:shadow-outline rounded bg-gray-500 px-4 py-2 font-bold text-white hover:bg-gray-700 focus:outline-none"
           >
             Cancelar
           </button>
@@ -170,4 +188,3 @@ export default function EditProfile({ userId, initialUserData }) {
     </div>
   );
 }
-
